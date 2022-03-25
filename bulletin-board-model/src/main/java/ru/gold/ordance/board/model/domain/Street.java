@@ -20,9 +20,9 @@ public class Street implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "sequence-generator")
+    @GeneratedValue(generator = "street_sequence-generator")
     @GenericGenerator(
-            name = "sequence-generator",
+            name = "street_sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
                     @Parameter(name = "sequence_name", value = "street_sequence"),

@@ -20,9 +20,9 @@ public class Locality implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "sequence-generator")
+    @GeneratedValue(generator = "locality_sequence-generator")
     @GenericGenerator(
-            name = "sequence-generator",
+            name = "locality_sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
                     @Parameter(name = "sequence_name", value = "locality_sequence"),

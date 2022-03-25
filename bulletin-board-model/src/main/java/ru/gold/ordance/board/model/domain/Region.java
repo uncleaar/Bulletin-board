@@ -18,9 +18,9 @@ public class Region implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "sequence-generator")
+    @GeneratedValue(generator = "region_sequence-generator")
     @GenericGenerator(
-            name = "sequence-generator",
+            name = "region_sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
                     @Parameter(name = "sequence_name", value = "region_sequence"),

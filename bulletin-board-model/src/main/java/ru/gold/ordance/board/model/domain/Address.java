@@ -18,9 +18,9 @@ public class Address implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "sequence-generator")
+    @GeneratedValue(generator = "address_sequence-generator")
     @GenericGenerator(
-            name = "sequence-generator",
+            name = "address_sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
                     @Parameter(name = "sequence_name", value = "address_sequence"),
