@@ -24,8 +24,7 @@ public class ClientData implements AbstractEntity {
 
     private String phoneNumber;
 
-    @OneToOne(optional = false,
-            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE })
+    @OneToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE })
     @MapsId
     private Client client;
 
