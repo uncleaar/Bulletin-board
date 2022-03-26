@@ -28,6 +28,7 @@
         <module>bulletin-board-persistence</module>
         <module>bulletin-board-service</module>
         <module>bulletin-board-api</module>
+        <module>bulletin-board-common</module>
     </modules>
 
     <dependencyManagement>
@@ -46,6 +47,11 @@
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
                 <artifactId>bulletin-board-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>bulletin-board-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

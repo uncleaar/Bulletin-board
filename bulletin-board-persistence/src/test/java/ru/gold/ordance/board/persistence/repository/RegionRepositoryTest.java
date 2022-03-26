@@ -14,8 +14,7 @@ import ru.gold.ordance.board.persistence.repository.heir.RegionRepository;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.gold.ordance.board.persistence.EntityGenerator.createAddress;
-import static ru.gold.ordance.board.persistence.EntityGenerator.createRegion;
+import static ru.gold.ordance.board.common.test.EntityGenerator.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest(showSql = false)

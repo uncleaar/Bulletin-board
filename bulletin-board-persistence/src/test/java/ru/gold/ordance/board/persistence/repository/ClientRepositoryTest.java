@@ -15,8 +15,7 @@ import ru.gold.ordance.board.persistence.repository.bean.ClientRepository;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.gold.ordance.board.persistence.EntityGenerator.createClient;
-import static ru.gold.ordance.board.persistence.EntityGenerator.createClientData;
+import static ru.gold.ordance.board.common.test.EntityGenerator.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest(showSql = false)

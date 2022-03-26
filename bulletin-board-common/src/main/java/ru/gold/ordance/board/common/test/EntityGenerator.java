@@ -1,4 +1,4 @@
-package ru.gold.ordance.board.persistence;
+package ru.gold.ordance.board.common.test;
 
 import ru.gold.ordance.board.model.authorization.Client;
 import ru.gold.ordance.board.model.authorization.ClientData;
@@ -13,6 +13,8 @@ public final class EntityGenerator {
     public static Address createAddress() {
         return Address.builder()
                 .region(createRegion())
+                .locality(createLocality())
+                .street(createStreet())
                 .build();
     }
 

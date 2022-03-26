@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.gold.ordance.board.persistence.EntityGenerator.*;
+import static ru.gold.ordance.board.common.test.EntityGenerator.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest(showSql = false)

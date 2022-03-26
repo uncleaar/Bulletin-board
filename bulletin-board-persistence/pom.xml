@@ -20,7 +20,10 @@
         <dependency>
             <groupId>ru.gold.ordance</groupId>
             <artifactId>bulletin-board-model</artifactId>
-            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ru.gold.ordance</groupId>
+            <artifactId>bulletin-board-common</artifactId>
         </dependency>
 
         <!-- spring -->
