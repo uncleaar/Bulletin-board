@@ -6,5 +6,5 @@ import java.util.Optional;
 
 @NoRepositoryBean
 public interface SearchByNameRepository<Entity> extends EntityRepository<Entity> {
-    Optional<Entity> findByName(String name);
+    Optional<Entity> findByNameIgnoreCase(String name);
 }
