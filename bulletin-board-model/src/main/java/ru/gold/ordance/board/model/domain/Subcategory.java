@@ -5,9 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import ru.gold.ordance.board.model.AbstractEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Setter
@@ -32,4 +30,7 @@ public class Subcategory implements AbstractEntity {
     private Long id;
 
     private String name;
+
+    @ManyToOne
+    private Category category;
 }

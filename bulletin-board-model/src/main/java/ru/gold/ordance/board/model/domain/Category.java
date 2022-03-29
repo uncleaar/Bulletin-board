@@ -33,6 +33,6 @@ public class Category implements AbstractEntity {
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER,
-            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REMOVE })
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
     private Set<Subcategory> subcategories;
 }

@@ -4,8 +4,10 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import ru.gold.ordance.board.model.AbstractEntity;
+import ru.gold.ordance.board.model.domain.Advertisement;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -30,10 +32,20 @@ public class Client implements AbstractEntity {
             })
     private Long id;
 
+    private String login;
+
     private String password;
 
     private String salt;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private String name;
+
+    private String phoneNumber;
+
+    @OneToMany(mappedBy = "client",
+            cascade = { CascadeType.REMOVE })
+    private Set<Advertisement> advertisements;
 }

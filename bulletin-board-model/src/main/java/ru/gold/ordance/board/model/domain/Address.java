@@ -30,9 +30,6 @@ public class Address implements AbstractEntity {
     private Long id;
 
     @ManyToOne
-    private Region region;
-
-    @ManyToOne
     private Locality locality;
 
     @ManyToOne

@@ -4,7 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import ru.gold.ordance.board.model.AbstractEntity;
-import ru.gold.ordance.board.model.authorization.ClientData;
+import ru.gold.ordance.board.model.authorization.Client;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -32,19 +32,24 @@ public class Advertisement implements AbstractEntity {
     private Long id;
 
     @ManyToOne
-    private ClientData clientData;
+    private Client client;
 
     private String name;
 
-    @OneToOne
-    private Address address;
-
     private LocalDate createDate;
 
-    @OneToOne
+    @ManyToOne
     private Subcategory subcategory;
 
     private String description;
 
     private int price;
+
+    @ManyToOne
+    private Locality locality;
+
+    @ManyToOne
+    private Street street;
+
+    private String houseNumber;
 }
