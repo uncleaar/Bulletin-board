@@ -1,14 +1,12 @@
-package ru.gold.ordance.board.model.domain;
+package ru.gold.ordance.board.model.entity.domain;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import ru.gold.ordance.board.model.AbstractEntity;
+import ru.gold.ordance.board.model.entity.AbstractEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -17,16 +15,16 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Locality implements AbstractEntity {
+public class Category implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "locality_sequence-generator")
+    @GeneratedValue(generator = "category_sequence-generator")
     @GenericGenerator(
-            name = "locality_sequence-generator",
+            name = "category_sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @Parameter(name = "sequence_name", value = "locality_sequence"),
+                    @Parameter(name = "sequence_name", value = "category_sequence"),
                     @Parameter(name = "initial_value", value = "1"),
                     @Parameter(name = "increment_size", value = "1")
             })
@@ -34,6 +32,7 @@ public class Locality implements AbstractEntity {
 
     private String name;
 
-    @ManyToOne
-    private Region region;
+    @OneToMany(fetch = FetchType.EAGER,
+            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+    private Set<Subcategory> subcategories;
 }

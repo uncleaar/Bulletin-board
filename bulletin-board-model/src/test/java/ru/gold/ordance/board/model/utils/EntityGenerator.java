@@ -1,8 +1,8 @@
 package ru.gold.ordance.board.model.utils;
 
-import ru.gold.ordance.board.model.authorization.Client;
-import ru.gold.ordance.board.model.authorization.Role;
-import ru.gold.ordance.board.model.domain.*;
+import ru.gold.ordance.board.model.entity.authorization.Client;
+import ru.gold.ordance.board.model.entity.authorization.Role;
+import ru.gold.ordance.board.model.entity.domain.*;
 
 import java.time.LocalDate;
 import java.util.Set;

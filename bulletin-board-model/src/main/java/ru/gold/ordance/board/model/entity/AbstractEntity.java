@@ -1,4 +1,4 @@
-package ru.gold.ordance.board.model;
+package ru.gold.ordance.board.model.entity;
 
 import java.io.Serializable;
 

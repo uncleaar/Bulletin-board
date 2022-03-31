@@ -1,11 +1,11 @@
-package ru.gold.ordance.board.model.domain;
+package ru.gold.ordance.board.model.entity.domain;
 
 import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import ru.gold.ordance.board.model.authorization.Client;
+import ru.gold.ordance.board.model.entity.authorization.Client;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static ru.gold.ordance.board.model.utils.EntityGenerator.*;

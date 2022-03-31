@@ -1,4 +1,4 @@
-package ru.gold.ordance.board.model.domain;
+package ru.gold.ordance.board.model.entity.domain;
 
 import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
@@ -10,49 +10,49 @@ import static org.junit.jupiter.api.Assertions.*;
 import static ru.gold.ordance.board.model.utils.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
-public class AddressTest {
+public class LnkLocalityStreetTest {
     @Autowired
     private TestEntityManager entityManager;
 
     @Test
-    public void persistAddress_localityAndStreetDoesNotPersist() {
-        Address saved = entityManager.persist(createAddress());
+    public void persistLnkLocalityStreet_localityAndStreetDoesNotPersist() {
+        LnkLocalityStreet saved = entityManager.persist(createLnkLocalityStreet());
 
         assertNull(saved.getLocality().getId());
         assertNull(saved.getStreet().getId());
     }
 
     @Test
-    public void mergeAddress_localityAndStreetDoesNotMerge() {
+    public void mergeLnkLocalityStreet_localityAndStreetDoesNotMerge() {
         Region savedRegion = entityManager.persist(createRegion());
         Locality savedLocality = entityManager.persist(createLocality(savedRegion));
         Street savedStreet = entityManager.persist(createStreet());
-        Address savedAddress = entityManager.persist(createAddress(savedLocality, savedStreet));
+        LnkLocalityStreet savedLnkLocalityStreet = entityManager.persist(createLnkLocalityStreet(savedLocality, savedStreet));
 
         entityManager.flush();
         entityManager.detach(savedRegion);
         entityManager.detach(savedLocality);
         entityManager.detach(savedStreet);
-        entityManager.detach(savedAddress);
+        entityManager.detach(savedLnkLocalityStreet);
 
-        savedAddress.getLocality().setName(Strings.EMPTY);
-        savedAddress.getStreet().setName(Strings.EMPTY);
-        Address mergedAddress = entityManager.merge(savedAddress);
+        savedLnkLocalityStreet.getLocality().setName(Strings.EMPTY);
+        savedLnkLocalityStreet.getStreet().setName(Strings.EMPTY);
+        LnkLocalityStreet mergedLnkLocalityStreet = entityManager.merge(savedLnkLocalityStreet);
 
-        assertFalse(mergedAddress.getLocality().getName().isEmpty());
-        assertFalse(mergedAddress.getStreet().getName().isEmpty());
+        assertFalse(mergedLnkLocalityStreet.getLocality().getName().isEmpty());
+        assertFalse(mergedLnkLocalityStreet.getStreet().getName().isEmpty());
     }
 
     @Test
-    public void removeAddress_localityAndStreetDoesNotRemove() {
+    public void removeLnkLocalityStreet_localityAndStreetDoesNotRemove() {
         Region savedRegion = entityManager.persist(createRegion());
         Locality savedLocality = entityManager.persist(createLocality(savedRegion));
         Street savedStreet = entityManager.persist(createStreet());
-        Address savedAddress = entityManager.persist(createAddress(savedLocality, savedStreet));
+        LnkLocalityStreet savedLnkLocalityStreet = entityManager.persist(createLnkLocalityStreet(savedLocality, savedStreet));
 
         entityManager.flush();
 
-        entityManager.remove(savedAddress);
+        entityManager.remove(savedLnkLocalityStreet);
 
         Locality locality = entityManager.find(Locality.class, savedLocality.getId());
         Street street = entityManager.find(Street.class, savedStreet.getId());

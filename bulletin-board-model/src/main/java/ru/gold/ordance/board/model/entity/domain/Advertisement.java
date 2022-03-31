@@ -1,10 +1,10 @@
-package ru.gold.ordance.board.model.domain;
+package ru.gold.ordance.board.model.entity.domain;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import ru.gold.ordance.board.model.AbstractEntity;
-import ru.gold.ordance.board.model.authorization.Client;
+import ru.gold.ordance.board.model.entity.AbstractEntity;
+import ru.gold.ordance.board.model.entity.authorization.Client;
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -1,11 +1,13 @@
-package ru.gold.ordance.board.model.domain;
+package ru.gold.ordance.board.model.entity.domain;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import ru.gold.ordance.board.model.AbstractEntity;
+import ru.gold.ordance.board.model.entity.AbstractEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 @Setter
@@ -14,26 +16,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Address implements AbstractEntity {
+public class Street implements AbstractEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(generator = "address_sequence-generator")
+    @GeneratedValue(generator = "street_sequence-generator")
     @GenericGenerator(
-            name = "address_sequence-generator",
+            name = "street_sequence-generator",
             strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
             parameters = {
-                    @Parameter(name = "sequence_name", value = "address_sequence"),
+                    @Parameter(name = "sequence_name", value = "street_sequence"),
                     @Parameter(name = "initial_value", value = "1"),
                     @Parameter(name = "increment_size", value = "1")
             })
     private Long id;
 
-    @ManyToOne
-    private Locality locality;
-
-    @ManyToOne
-    private Street street;
-
-    private String houseNumber;
+    private String name;
 }

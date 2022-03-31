@@ -1,4 +1,4 @@
-package ru.gold.ordance.board.model.authorization;
+package ru.gold.ordance.board.model.entity.authorization;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
