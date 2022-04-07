@@ -6,5 +6,5 @@ import java.util.List;
 
 @NoRepositoryBean
 public interface SearchAllByNameRepository<Entity> extends EntityRepository<Entity> {
-    List<Entity> findAllByNameIgnoreCase(String name);
+    List<Entity> findByNameIgnoreCaseContaining(String name);
 }

@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.gold.ordance.board.model.utils.EntityGenerator.*;
+import static ru.gold.ordance.board.model.utils.test.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
 public class AddressTest {

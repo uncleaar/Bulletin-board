@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import ru.gold.ordance.board.model.entity.authorization.Client;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.gold.ordance.board.model.utils.EntityGenerator.*;
+import static ru.gold.ordance.board.model.utils.test.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
 public class AdvertisementTest {

@@ -36,8 +36,6 @@ public class Client implements AbstractEntity {
 
     private String password;
 
-    private String salt;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
