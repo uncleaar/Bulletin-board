@@ -1,0 +1,16 @@
+package ru.gold.ordance.board.model.api.domain.subcategory;
+
+import lombok.*;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
+@Getter
+@ToString
+public class WebSubcategory {
+    private final Long entityId;
+
+    private final String name;
+
+    private final Long categoryId;
+}

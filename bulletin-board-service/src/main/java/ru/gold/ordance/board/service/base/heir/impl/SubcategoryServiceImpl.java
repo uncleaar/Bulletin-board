@@ -56,6 +56,21 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
+    public @Nullable Optional<Subcategory> findByName(@NotNull String name) {
+        LOGGER.info("The search by name subcategory has started.");
+
+        Optional<Subcategory> found = repository.findByNameIgnoreCase(name);
+
+        if (found.isEmpty()) {
+            LOGGER.info("The subcategory not found. name = {}", name);
+        } else {
+            LOGGER.info("The subcategory was found. subcategory = {}", found.get());
+        }
+
+        return found;
+    }
+
+    @Override
     public @Nullable Optional<Subcategory> update(@NotNull Subcategory subcategory) {
         LOGGER.info("Update subcategory has started.");
 
@@ -63,6 +78,12 @@ public class SubcategoryServiceImpl implements SubcategoryService {
 
         if (!helper.existsExternal(subcategory)) {
             LOGGER.info("Subcategory " + (exists ? "save" : "update") + " is ignored. subcategory = {}", subcategory);
+
+            return Optional.empty();
+        }
+
+        if (!exists && subcategory.getId() != null) {
+            LOGGER.info("The subcategory does not exist by the passed id. subcategory = {}", subcategory);
 
             return Optional.empty();
         }
@@ -79,11 +100,6 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     }
 
     @Override
-    public void delete(@NotNull Subcategory subcategory) {
-        deleteById(subcategory.getId());
-    }
-
-    @Override
     public void deleteById(@NotNull Long id) {
         LOGGER.info("Delete subcategory has started.");
 
@@ -95,20 +111,5 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         } else {
             LOGGER.info("The subcategory does not exist. entityId = {}", id);
         }
-    }
-
-    @Override
-    public @Nullable Optional<Subcategory> findByName(@NotNull String name) {
-        LOGGER.info("The search by name subcategory has started.");
-
-        Optional<Subcategory> found = repository.findByNameIgnoreCase(name);
-
-        if (found.isEmpty()) {
-            LOGGER.info("The subcategory not found. name = {}", name);
-        } else {
-            LOGGER.info("The subcategory was found. subcategory = {}", found.get());
-        }
-
-        return found;
     }
 }

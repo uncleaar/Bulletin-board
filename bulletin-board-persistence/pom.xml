@@ -19,7 +19,7 @@
         <!-- self modules -->
         <dependency>
             <groupId>ru.gold.ordance</groupId>
-            <artifactId>bulletin-board-model</artifactId>
+            <artifactId>bulletin-board-model-entity</artifactId>
         </dependency>
 
         <!-- spring -->

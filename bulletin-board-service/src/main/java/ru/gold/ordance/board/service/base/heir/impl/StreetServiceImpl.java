@@ -56,10 +56,31 @@ public class StreetServiceImpl implements StreetService {
     }
 
     @Override
-    public @NotNull Optional<Street> update(@NotNull Street street) {
+    public @Nullable Optional<Street> findByName(@NotNull String name) {
+        LOGGER.info("The search by name street has started.");
+
+        Optional<Street> found = repository.findByNameIgnoreCase(name);
+
+        if (found.isEmpty()) {
+            LOGGER.info("The street not found. name = {}", name);
+        } else {
+            LOGGER.info("The street was found. street = {}", found.get());
+        }
+
+        return found;
+    }
+
+    @Override
+    public @Nullable Optional<Street> update(@NotNull Street street) {
         LOGGER.info("Update street has started.");
 
         boolean exists = helper.exists(street);
+        if (!exists && street.getId() != null) {
+            LOGGER.info("The street does not exist by the passed id. street = {}", street);
+
+            return Optional.empty();
+        }
+
         Street updatedStreet = repository.saveAndFlush(street);
 
         if (exists) {
@@ -69,11 +90,6 @@ public class StreetServiceImpl implements StreetService {
         }
 
         return Optional.of(updatedStreet);
-    }
-
-    @Override
-    public void delete(@NotNull Street street) {
-        deleteById(street.getId());
     }
 
     @Override
@@ -88,20 +104,5 @@ public class StreetServiceImpl implements StreetService {
         } else {
             LOGGER.info("The street does not exist. entityId = {}", id);
         }
-    }
-
-    @Override
-    public @Nullable Optional<Street> findByName(@NotNull String name) {
-        LOGGER.info("The search by name street has started.");
-
-        Optional<Street> found = repository.findByNameIgnoreCase(name);
-
-        if (found.isEmpty()) {
-            LOGGER.info("The street not found. name = {}", name);
-        } else {
-            LOGGER.info("The street was found. street = {}", found.get());
-        }
-
-        return found;
     }
 }

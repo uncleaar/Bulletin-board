@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.gold.ordance.board.model.utils.test.EntityGenerator.*;
+import static ru.gold.ordance.board.model.entity.utils.test.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
 public class LnkLocalityStreetServiceTest {
@@ -63,8 +63,10 @@ public class LnkLocalityStreetServiceTest {
     @Test
     public void findAll_foundALot() {
         int foundALot = 2;
+        Street otherSavedStreet = manager.persistAndFlush(createStreet());
+
         repository.save(createLnkLocalityStreet(savedLocality, savedStreet));
-        repository.save(createLnkLocalityStreet(savedLocality, savedStreet));
+        repository.save(createLnkLocalityStreet(savedLocality, otherSavedStreet));
 
         List<LnkLocalityStreet> found = service.findAll();
 
@@ -126,17 +128,6 @@ public class LnkLocalityStreetServiceTest {
     }
 
     @Test
-    public void delete_lnkLocalityStreetExists() {
-        LnkLocalityStreet saved = repository.save(createLnkLocalityStreet(savedLocality, savedStreet));
-
-        service.delete(saved);
-
-        Optional<LnkLocalityStreet> found = repository.findById(saved.getId());
-
-        assertTrue(found.isEmpty());
-    }
-
-    @Test
     public void deleteById_clientExists() {
         LnkLocalityStreet saved = repository.save(createLnkLocalityStreet(savedLocality, savedStreet));
 
@@ -188,8 +179,10 @@ public class LnkLocalityStreetServiceTest {
     @Test
     public void findByLocality_foundALot() {
         int foundALot = 2;
+        Street otherSavedStreet = manager.persistAndFlush(createStreet());
+
         repository.save(createLnkLocalityStreet(savedLocality, savedStreet));
-        repository.save(createLnkLocalityStreet(savedLocality, savedStreet));
+        repository.save(createLnkLocalityStreet(savedLocality, otherSavedStreet));
 
         List<LnkLocalityStreet> found = service.findByLocality(savedLocality);
 
@@ -219,8 +212,11 @@ public class LnkLocalityStreetServiceTest {
     @Test
     public void findByStreet_foundALot() {
         int foundALot = 2;
+        Region savedRegion = manager.persistAndFlush(createRegion());
+        Locality otherSavedLocality = manager.persistAndFlush(createLocality(savedRegion));
+
         repository.save(createLnkLocalityStreet(savedLocality, savedStreet));
-        repository.save(createLnkLocalityStreet(savedLocality, savedStreet));
+        repository.save(createLnkLocalityStreet(otherSavedLocality, savedStreet));
 
         List<LnkLocalityStreet> found = service.findByStreet(savedStreet);
 

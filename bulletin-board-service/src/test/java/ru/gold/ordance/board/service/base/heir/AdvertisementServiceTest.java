@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import ru.gold.ordance.board.model.entity.authorization.Client;
 import ru.gold.ordance.board.model.entity.domain.*;
 import ru.gold.ordance.board.persistence.repository.heir.AdvertisementRepository;
 
@@ -15,7 +14,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.gold.ordance.board.model.utils.test.EntityGenerator.*;
+import static ru.gold.ordance.board.model.entity.utils.test.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
 public class AdvertisementServiceTest {
@@ -135,18 +134,6 @@ public class AdvertisementServiceTest {
         assertEquals(newObj.getCreateDate(), updated.getCreateDate());
         assertEquals(newObj.getDescription(), updated.getDescription());
         assertEquals(newObj.getName(), updated.getName());
-    }
-
-    @Test
-    public void delete_advertisementExists() {
-        Advertisement saved =
-                repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
-
-        service.delete(saved);
-
-        Optional<Advertisement> found = repository.findById(saved.getId());
-
-        assertTrue(found.isEmpty());
     }
 
     @Test

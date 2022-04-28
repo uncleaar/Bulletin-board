@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.gold.ordance.board.model.utils.test.EntityGenerator.*;
+import static ru.gold.ordance.board.model.entity.utils.test.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
 public class LocalityServiceTest {
@@ -117,17 +117,6 @@ public class LocalityServiceTest {
     }
 
     @Test
-    public void delete_localityExists() {
-        Locality savedLocality = localityRepository.save(createLocality(savedRegion));
-
-        service.delete(savedLocality);
-
-        Optional<Locality> found = localityRepository.findById(savedLocality.getId());
-
-        assertTrue(found.isEmpty());
-    }
-
-    @Test
     public void deleteById_localityExists() {
         Locality savedLocality = localityRepository.save(createLocality(savedRegion));
 
@@ -139,34 +128,21 @@ public class LocalityServiceTest {
     }
 
     @Test
-    public void findAllByName_notFound() {
+    public void findByName_notFound() {
         String fakeName = Strings.EMPTY;
-        int noOneHasBeenFound = 0;
 
-        List<Locality> found = service.findAllByName(fakeName);
+        Optional<Locality> empty = service.findByName(fakeName);
 
-        assertEquals(noOneHasBeenFound, found.size());
+        assertTrue(empty.isEmpty());
     }
 
     @Test
-    public void findAllByName_foundOne() {
-        int foundOne = 1;
+    public void findByName_found() {
         Locality saved = localityRepository.save(createLocality(savedRegion));
-        localityRepository.save(createLocality(savedRegion));
 
-        List<Locality> found = service.findAllByName(saved.getName());
+        Optional<Locality> found = service.findByName(saved.getName());
 
-        assertEquals(foundOne, found.size());
-    }
-
-    @Test
-    public void findAllByName_foundALot() {
-        int foundALot = 2;
-        Locality saved = localityRepository.save(createLocality(savedRegion));
-        localityRepository.save(createLocality(saved.getName(), savedRegion));
-
-        List<Locality> found = service.findAllByName(saved.getName());
-
-        assertEquals(foundALot, found.size());
+        assertTrue(found.isPresent());
+        assertEquals(saved, found.get());
     }
 }

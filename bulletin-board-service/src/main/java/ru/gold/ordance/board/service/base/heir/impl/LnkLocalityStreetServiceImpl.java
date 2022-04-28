@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gold.ordance.board.model.entity.domain.LnkLocalityStreet;
 import ru.gold.ordance.board.model.entity.domain.Locality;
+import ru.gold.ordance.board.model.entity.domain.Region;
 import ru.gold.ordance.board.model.entity.domain.Street;
 import ru.gold.ordance.board.persistence.repository.heir.LnkLocalityStreetRepository;
 import ru.gold.ordance.board.persistence.utils.StorageHelper;
@@ -58,49 +59,6 @@ public class LnkLocalityStreetServiceImpl implements LnkLocalityStreetService {
     }
 
     @Override
-    public @Nullable Optional<LnkLocalityStreet> update(@NotNull LnkLocalityStreet lnkLocalityStreet) {
-        LOGGER.info("Update link locality-street has started.");
-
-        boolean exists = helper.exists(lnkLocalityStreet);
-
-        if (!helper.existsExternal(lnkLocalityStreet)) {
-            LOGGER.info("Link locality-street " + (exists ? "save" : "update") + " is ignored. link locality-street = {}", lnkLocalityStreet);
-
-            return Optional.empty();
-        }
-
-        LnkLocalityStreet updatedLnkLocalityStreet = repository.saveAndFlush(lnkLocalityStreet);
-
-        if (exists) {
-            LOGGER.info("The link locality-street was updated. link locality-street = {}", updatedLnkLocalityStreet);
-        } else {
-            LOGGER.info("The link locality-street was saved. link locality-street = {}", updatedLnkLocalityStreet);
-        }
-
-        return Optional.of(updatedLnkLocalityStreet);
-    }
-
-    @Override
-    public void delete(@NotNull LnkLocalityStreet lnkLocalityStreet) {
-        deleteById(lnkLocalityStreet.getId());
-    }
-
-    @Override
-    public void deleteById(@NotNull Long id) {
-        LOGGER.info("Delete link locality-street has started.");
-
-        Optional<LnkLocalityStreet> found = repository.findById(id);
-
-        if (found.isPresent()) {
-            repository.deleteById(id);
-            LOGGER.info("The link locality-street was deleted. entityId = {}", id);
-        } else {
-            LOGGER.info("The link locality-street does not exist. entityId = {}", id);
-        }
-    }
-
-
-    @Override
     public @Nullable Optional<LnkLocalityStreet> findByLocalityAndStreet(@NotNull Locality locality, @NotNull Street street) {
         LOGGER.info("The search by locality and street of link locality-street has started.");
 
@@ -135,5 +93,48 @@ public class LnkLocalityStreetServiceImpl implements LnkLocalityStreetService {
         LOGGER.info("Size of list: {}", found.size());
 
         return found;
+    }
+
+    @Override
+    public @Nullable Optional<LnkLocalityStreet> update(@NotNull LnkLocalityStreet lnkLocalityStreet) {
+        LOGGER.info("Update link locality-street has started.");
+
+        boolean exists = helper.exists(lnkLocalityStreet);
+
+        if (!helper.existsExternal(lnkLocalityStreet)) {
+            LOGGER.info("Link locality-street " + (exists ? "save" : "update") + " is ignored. link locality-street = {}", lnkLocalityStreet);
+
+            return Optional.empty();
+        }
+
+        if (!exists && lnkLocalityStreet.getId() != null) {
+            LOGGER.info("The lnkLocalityStreet does not exist by the passed id. lnkLocalityStreet = {}", lnkLocalityStreet);
+
+            return Optional.empty();
+        }
+
+        LnkLocalityStreet updatedLnkLocalityStreet = repository.saveAndFlush(lnkLocalityStreet);
+
+        if (exists) {
+            LOGGER.info("The link locality-street was updated. link locality-street = {}", updatedLnkLocalityStreet);
+        } else {
+            LOGGER.info("The link locality-street was saved. link locality-street = {}", updatedLnkLocalityStreet);
+        }
+
+        return Optional.of(updatedLnkLocalityStreet);
+    }
+
+    @Override
+    public void deleteById(@NotNull Long id) {
+        LOGGER.info("Delete link locality-street has started.");
+
+        Optional<LnkLocalityStreet> found = repository.findById(id);
+
+        if (found.isPresent()) {
+            repository.deleteById(id);
+            LOGGER.info("The link locality-street was deleted. entityId = {}", id);
+        } else {
+            LOGGER.info("The link locality-street does not exist. entityId = {}", id);
+        }
     }
 }

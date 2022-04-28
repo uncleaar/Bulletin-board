@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.gold.ordance.board.model.utils.test.EntityGenerator.createRegion;
+import static ru.gold.ordance.board.model.entity.utils.test.EntityGenerator.createRegion;
 
 @DataJpaTest(showSql = false)
 public class RegionServiceTest {
@@ -91,17 +91,6 @@ public class RegionServiceTest {
 
         assertEquals(newObj.getId(), updated.getId());
         assertEquals(newObj.getName(), updated.getName());
-    }
-
-    @Test
-    public void delete_regionExists() {
-        Region saved = repository.save(createRegion());
-
-        service.delete(saved);
-
-        Optional<Region> found = repository.findById(saved.getId());
-
-        assertTrue(found.isEmpty());
     }
 
     @Test

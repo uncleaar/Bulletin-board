@@ -29,6 +29,7 @@
         <module>bulletin-board-service</module>
         <module>bulletin-board-api</module>
         <module>bulletin-board-common</module>
+        <module>bulletin-board-web-service</module>
     </modules>
 
     <dependencyManagement>
@@ -36,7 +37,12 @@
             <!-- self modules -->
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
-                <artifactId>bulletin-board-model</artifactId>
+                <artifactId>bulletin-board-model-entity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>bulletin-board-model-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -47,6 +53,11 @@
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
                 <artifactId>bulletin-board-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>bulletin-board-web-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -108,6 +119,11 @@
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>1.70</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>0.9.1</version>
             </dependency>
 
             <!-- test -->

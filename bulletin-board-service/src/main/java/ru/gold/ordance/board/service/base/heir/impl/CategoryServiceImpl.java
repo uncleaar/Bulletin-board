@@ -56,10 +56,31 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public @Nullable Optional<Category> findByName(@NotNull String name) {
+        LOGGER.info("The search by name category has started.");
+
+        Optional<Category> found = repository.findByNameIgnoreCase(name);
+
+        if (found.isEmpty()) {
+            LOGGER.info("The category not found. name = {}", name);
+        } else {
+            LOGGER.info("The category was found. category = {}", found.get());
+        }
+
+        return found;
+    }
+
+    @Override
     public @NotNull Optional<Category> update(@NotNull Category category) {
         LOGGER.info("Update category has started.");
 
         boolean exists = helper.exists(category);
+        if (!exists && category.getId() != null) {
+            LOGGER.info("The category does not exist by the passed id. category = {}", category);
+
+            return Optional.empty();
+        }
+
         Category updatedCategory = repository.saveAndFlush(category);
 
         if (exists) {
@@ -69,11 +90,6 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return Optional.of(updatedCategory);
-    }
-
-    @Override
-    public void delete(@NotNull Category category) {
-        deleteById(category.getId());
     }
 
     @Override
@@ -88,20 +104,5 @@ public class CategoryServiceImpl implements CategoryService {
         } else {
             LOGGER.info("The category does not exist. entityId = {}", id);
         }
-    }
-
-    @Override
-    public @Nullable Optional<Category> findByName(@NotNull String name) {
-        LOGGER.info("The search by name category has started.");
-
-        Optional<Category> found = repository.findByNameIgnoreCase(name);
-
-        if (found.isEmpty()) {
-            LOGGER.info("The category not found. name = {}", name);
-        } else {
-            LOGGER.info("The category was found. category = {}", found.get());
-        }
-
-        return found;
     }
 }

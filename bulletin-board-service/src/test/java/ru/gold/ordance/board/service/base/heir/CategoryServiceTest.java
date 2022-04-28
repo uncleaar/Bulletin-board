@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.gold.ordance.board.model.utils.test.EntityGenerator.*;
+import static ru.gold.ordance.board.model.entity.utils.test.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
 public class CategoryServiceTest {
@@ -91,17 +91,6 @@ public class CategoryServiceTest {
 
         assertEquals(newObj.getId(), updated.getId());
         assertEquals(newObj.getName(), updated.getName());
-    }
-
-    @Test
-    public void delete_categoryExists() {
-        Category saved = repository.save(createCategoryWithoutSubcategories());
-
-        service.delete(saved);
-
-        Optional<Category> found = repository.findById(saved.getId());
-
-        assertTrue(found.isEmpty());
     }
 
     @Test

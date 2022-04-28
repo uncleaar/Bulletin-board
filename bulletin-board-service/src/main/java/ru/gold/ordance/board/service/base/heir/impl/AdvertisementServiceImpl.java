@@ -12,6 +12,7 @@ import ru.gold.ordance.board.persistence.repository.heir.AdvertisementRepository
 import ru.gold.ordance.board.persistence.utils.StorageHelper;
 import ru.gold.ordance.board.service.base.heir.AdvertisementService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +57,17 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public List<Advertisement> findAllByName(@NotNull String name) {
+        LOGGER.info("The search by name advertisements has started.");
+
+        List<Advertisement> found = repository.findByNameIgnoreCaseContaining(name);
+
+        LOGGER.info("Size of list: {}", found.size());
+
+        return found;
+    }
+
+    @Override
     public @Nullable Optional<Advertisement> update(@NotNull Advertisement advertisement) {
         LOGGER.info("Update advertisement has started.");
 
@@ -67,20 +79,24 @@ public class AdvertisementServiceImpl implements AdvertisementService {
             return Optional.empty();
         }
 
-        Advertisement updatedAdvertisement = repository.saveAndFlush(advertisement);
+        if (!exists && advertisement.getId() != null) {
+            LOGGER.info("The advertisement does not exist by the passed id. advertisement = {}", advertisement);
+
+            return Optional.empty();
+        }
+
+        Advertisement updatedAdvertisement;
 
         if (exists) {
+            updatedAdvertisement = repository.saveAndFlush(advertisement);
             LOGGER.info("The advertisement was updated. advertisement = {}", updatedAdvertisement);
         } else {
+            advertisement.setCreateDate(LocalDate.now());
+            updatedAdvertisement = repository.saveAndFlush(advertisement);
             LOGGER.info("The advertisement was saved. advertisement = {}", updatedAdvertisement);
         }
 
         return Optional.of(updatedAdvertisement);
-    }
-
-    @Override
-    public void delete(@NotNull Advertisement advertisement) {
-        deleteById(advertisement.getId());
     }
 
     @Override
@@ -95,16 +111,5 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         } else {
             LOGGER.info("The advertisement does not exist. entityId = {}", id);
         }
-    }
-
-    @Override
-    public List<Advertisement> findAllByName(@NotNull String name) {
-        LOGGER.info("The search by name advertisements has started.");
-
-        List<Advertisement> found = repository.findByNameIgnoreCaseContaining(name);
-
-        LOGGER.info("Size of list: {}", found.size());
-
-        return found;
     }
 }

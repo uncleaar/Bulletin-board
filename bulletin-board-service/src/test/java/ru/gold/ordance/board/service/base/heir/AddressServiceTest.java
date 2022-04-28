@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import ru.gold.ordance.board.model.entity.domain.*;
+import ru.gold.ordance.board.model.entity.domain.Address;
+import ru.gold.ordance.board.model.entity.domain.Locality;
+import ru.gold.ordance.board.model.entity.domain.Region;
+import ru.gold.ordance.board.model.entity.domain.Street;
 import ru.gold.ordance.board.persistence.repository.heir.AddressRepository;
 
 import java.util.List;
@@ -13,7 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.gold.ordance.board.model.utils.test.EntityGenerator.*;
+import static ru.gold.ordance.board.model.entity.utils.test.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
 public class AddressServiceTest {
@@ -118,17 +121,6 @@ public class AddressServiceTest {
         assertEquals(newObj.getLocality().getId(), updated.getLocality().getId());
         assertEquals(newObj.getStreet().getId(), updated.getStreet().getId());
         assertEquals(newObj.getHouseNumber(), updated.getHouseNumber());
-    }
-
-    @Test
-    public void delete_addressExists() {
-        Address saved = repository.save(createAddress(savedLocality, savedStreet));
-
-        service.delete(saved);
-
-        Optional<Address> found = repository.findById(saved.getId());
-
-        assertTrue(found.isEmpty());
     }
 
     @Test

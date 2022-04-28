@@ -67,6 +67,12 @@ public class AddressServiceImpl implements AddressService {
             return Optional.empty();
         }
 
+        if (!exists && address.getId() != null) {
+            LOGGER.info("The address does not exist by the passed id. address = {}", address);
+
+            return Optional.empty();
+        }
+
         Address updatedAddress = repository.saveAndFlush(address);
 
         if (exists) {
@@ -76,11 +82,6 @@ public class AddressServiceImpl implements AddressService {
         }
 
         return Optional.of(updatedAddress);
-    }
-
-    @Override
-    public void delete(@NotNull Address address) {
-        deleteById(address.getId());
     }
 
     @Override

@@ -1,0 +1,20 @@
+server:
+  port: 8090
+
+spring:
+  config:
+    import: classpath:swagger.yml
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+springdoc:
+  swagger-ui:
+    path: /admin/api.html
+
+jwt:
+  token:
+    secret: ru.gold.ordance
+    expirationMs: 1200000

@@ -8,7 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.gold.ordance.board.model.entity.authorization.Client;
+import ru.gold.ordance.board.model.entity.domain.Client;
+import ru.gold.ordance.board.model.entity.domain.Role;
 import ru.gold.ordance.board.persistence.repository.heir.ClientRepository;
 import ru.gold.ordance.board.persistence.utils.StorageHelper;
 import ru.gold.ordance.board.service.base.heir.ClientService;
@@ -62,18 +63,53 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public @NotNull Optional<Client> update(@NotNull Client client) {
+    public List<Client> findAllByName(@NotNull String name) {
+        LOGGER.info("The search by name clients has started.");
+
+        List<Client> found = repository.findByNameIgnoreCaseContaining(name);
+
+        LOGGER.info("Size of list: {}", found.size());
+
+        return found;
+    }
+
+    @Override
+    public Optional<Client> findByLogin(String login) {
+        LOGGER.info("The search by login client has started.");
+
+        Optional<Client> client = repository.findByLogin(login);
+
+        if (client.isEmpty()) {
+            LOGGER.info("The client not found. login = {}", login);
+        } else {
+            LOGGER.info("The client was found. client = {}", client.get());
+        }
+
+        return client;
+    }
+
+    @Override
+    public @Nullable Optional<Client> update(@NotNull Client client) {
         LOGGER.info("Update client has started.");
 
         Client updatedClient;
         boolean exists = helper.exists(client);
 
+        if (!exists && client.getId() != null) {
+            LOGGER.info("The client does not exist by the passed id. client = {}", client);
+
+            return Optional.empty();
+        }
+
         if (exists) {
             if (!passwordEncoder.matches(client.getPassword(), repository.findById(client.getId()).get().getPassword())) {
                 client.setPassword(passwordEncoder.encode(client.getPassword()));
             }
+
+            client.setLogin(helper.find(client.getClass(), client.getId()).get().getLogin());
         } else {
             client.setPassword(passwordEncoder.encode(client.getPassword()));
+            client.setRole(Role.USER);
         }
 
         updatedClient = repository.saveAndFlush(client);
@@ -88,11 +124,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void delete(@NotNull Client client) {
-        deleteById(client.getId());
-    }
-
-    @Override
     public void deleteById(@NotNull Long id) {
         LOGGER.info("Delete region has started.");
 
@@ -104,16 +135,5 @@ public class ClientServiceImpl implements ClientService {
         } else {
             LOGGER.info("The region does not exist. entityId = {}", id);
         }
-    }
-
-    @Override
-    public List<Client> findAllByName(@NotNull String name) {
-        LOGGER.info("The search by name clients has started.");
-
-        List<Client> found = repository.findByNameIgnoreCaseContaining(name);
-
-        LOGGER.info("Size of list: {}", found.size());
-
-        return found;
     }
 }

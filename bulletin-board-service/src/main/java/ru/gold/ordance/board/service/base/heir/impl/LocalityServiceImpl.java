@@ -56,6 +56,21 @@ public class LocalityServiceImpl implements LocalityService {
     }
 
     @Override
+    public Optional<Locality> findByName(@NotNull String name) {
+        LOGGER.info("The search by name localities has started.");
+
+        Optional<Locality> found = repository.findByNameIgnoreCase(name);
+
+        if (found.isEmpty()) {
+            LOGGER.info("The locality not found. name = {}", name);
+        } else {
+            LOGGER.info("The locality was found. locality = {}", found.get());
+        }
+
+        return found;
+    }
+
+    @Override
     public @Nullable Optional<Locality> update(@NotNull Locality locality) {
         LOGGER.info("Update locality has started.");
 
@@ -63,6 +78,12 @@ public class LocalityServiceImpl implements LocalityService {
 
         if (!helper.existsExternal(locality)) {
             LOGGER.info("Locality " + (exists ? "save" : "update") + " is ignored. locality = {}", locality);
+
+            return Optional.empty();
+        }
+
+        if (!exists && locality.getId() != null) {
+            LOGGER.info("The locality does not exist by the passed id. locality = {}", locality);
 
             return Optional.empty();
         }
@@ -79,11 +100,6 @@ public class LocalityServiceImpl implements LocalityService {
     }
 
     @Override
-    public void delete(@NotNull Locality locality) {
-        deleteById(locality.getId());
-    }
-
-    @Override
     public void deleteById(@NotNull Long id) {
         LOGGER.info("Delete locality has started.");
 
@@ -95,16 +111,5 @@ public class LocalityServiceImpl implements LocalityService {
         } else {
             LOGGER.info("The locality does not exist. entityId = {}", id);
         }
-    }
-
-    @Override
-    public List<Locality> findAllByName(@NotNull String name) {
-        LOGGER.info("The search by name localities has started.");
-
-        List<Locality> found = repository.findByNameIgnoreCaseContaining(name);
-
-        LOGGER.info("Size of list: {}", found.size());
-
-        return found;
     }
 }

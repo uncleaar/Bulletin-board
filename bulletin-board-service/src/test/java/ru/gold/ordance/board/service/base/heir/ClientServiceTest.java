@@ -4,7 +4,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import ru.gold.ordance.board.model.entity.authorization.Client;
+import ru.gold.ordance.board.model.entity.domain.Client;
 import ru.gold.ordance.board.persistence.repository.heir.ClientRepository;
 
 import java.util.List;
@@ -12,7 +12,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.gold.ordance.board.model.utils.test.EntityGenerator.*;
+import static ru.gold.ordance.board.common.utils.TestUtils.generateId;
+import static ru.gold.ordance.board.common.utils.TestUtils.randomString;
+import static ru.gold.ordance.board.model.entity.utils.test.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
 public class ClientServiceTest {
@@ -55,7 +57,7 @@ public class ClientServiceTest {
 
     @Test
     public void findById_notFound() {
-        long fakeId = 0L;
+        long fakeId = generateId();
 
         Optional<Client> found = service.findById(fakeId);
 
@@ -67,6 +69,24 @@ public class ClientServiceTest {
         Client saved = repository.save(createClient());
 
         Optional<Client> found = service.findById(saved.getId());
+
+        assertTrue(found.isPresent());
+    }
+
+    @Test
+    public void findByLogin_notFound() {
+        String fakeLogin = randomString();
+
+        Optional<Client> found = service.findByLogin(fakeLogin);
+
+        assertTrue(found.isEmpty());
+    }
+
+    @Test
+    public void findByLogin_found() {
+        Client saved = repository.save(createClient());
+
+        Optional<Client> found = service.findByLogin(saved.getLogin());
 
         assertTrue(found.isPresent());
     }
@@ -91,17 +111,6 @@ public class ClientServiceTest {
 
         assertEquals(newObj.getId(), updated.getId());
         assertEquals(newObj.getName(), updated.getName());
-    }
-
-    @Test
-    public void delete_clientExists() {
-        Client saved = repository.save(createClient());
-
-        service.delete(saved);
-
-        Optional<Client> found = repository.findById(saved.getId());
-
-        assertTrue(found.isEmpty());
     }
 
     @Test

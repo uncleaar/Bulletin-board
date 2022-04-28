@@ -1,0 +1,121 @@
+common:
+  description:
+    There are four types of error in total = {SUCCESS, INVALID_RQ, VIOLATES_CONSTRAINT, CALL_ERROR}.
+
+    GET REQUEST -
+    If the response is SUCCESS, the description field is always null, the size of the list field is {0, ..., n},
+    the total field is equal to the size of the list.
+    If the response is {INVALID_RQ or CALL_ERROR}, the description contains error message,
+    the size of the list field and the total field always is null.
+
+    UPDATE REQUEST -
+    If the response is SUCCESS, the description field is always null, the entityId field is null or contains the object ID from the database,
+    the updated field is {true or false}. The updated field has the value false if the entityId field is not null and the entity by id
+    does not exists in the database. The updated field has the value false if the subentityId field is not null and the subentity by id
+    does not exists in the database.
+    If the response is {INVALID_RQ, VIOLATES_CONSTRAINT or CALL_ERROR}, the description contains error message,
+    the entityId field always is null, the updated field always is false.
+
+    DELETE REQUEST -
+    If the response is SUCCESS, the description field is always null.
+    If the response is {INVALID_RQ or CALL_ERROR}, the description contains error message,
+    the entityId field always is null, the updated field always is false.
+
+address:
+  info:
+    title: AddressRestController
+
+  group-name: address
+
+  paths:
+    /api/v1/addresses/**
+
+advertisement:
+  info:
+    title: AdvertisementRestController
+
+  group-name: advertisement
+
+  paths:
+    /api/v1/advertisements/**
+
+client:
+  info:
+    title: ClientRestController
+
+  group-name: client
+
+  paths:
+    /api/v1/clients/**
+
+category:
+  info:
+    title: CategoryRestController
+
+  group-name: category
+
+  paths:
+    /api/v1/categories/**
+
+lnk:
+  info:
+    title: LnkLocalityStreetRestController
+
+  group-name: lnk
+
+  paths:
+    /api/v1/links-locality-street/**
+
+locality:
+  info:
+    title: LocalityRestController
+
+  group-name: locality
+
+  paths:
+    /api/v1/localities/**
+
+region:
+  info:
+    title: RegionRestController
+
+  group-name: region
+
+  paths:
+    /api/v1/regions/**
+
+street:
+  info:
+    title: StreetRestController
+
+  group-name: street
+
+  paths:
+    /api/v1/streets/**
+
+subcategory:
+  info:
+    title: SubcategoryRestController
+
+  group-name: subcategory
+
+  paths:
+    /api/v1/subcategories/**
+
+complex-address:
+  info:
+    title: ComplexAddressRestController
+
+  group-name: complex
+
+  paths:
+    /api/v1/complex-address/**
+
+auth:
+  info:
+    title: AuthRestController
+
+  group-name: auth
+
+  paths:
+    /api/v1/auth/**

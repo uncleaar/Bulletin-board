@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <logger name="ru.gold.ordance.board" level="warn"/>
+    <logger name="ru.gold.ordance.board.service" level="warn"/>
 
     <root level="off">
         <appender-ref ref="stdout"/>

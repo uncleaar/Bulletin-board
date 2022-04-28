@@ -4,7 +4,6 @@ import com.sun.istack.NotNull;
 import com.sun.istack.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,10 +56,31 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public @NotNull Optional<Region> update(@NotNull Region region) {
+    public @Nullable Optional<Region> findByName(@NotNull String name) {
+        LOGGER.info("The search by name region has started.");
+
+        Optional<Region> found = repository.findByNameIgnoreCase(name);
+
+        if (found.isEmpty()) {
+            LOGGER.info("The region not found. name = {}", name);
+        } else {
+            LOGGER.info("The region was found. region = {}", found.get());
+        }
+
+        return found;
+    }
+
+    @Override
+    public @Nullable Optional<Region> update(@NotNull Region region) {
         LOGGER.info("Update region has started.");
 
         boolean exists = helper.exists(region);
+        if (!exists && region.getId() != null) {
+            LOGGER.info("The region does not exist by the passed id. region = {}", region);
+
+            return Optional.empty();
+        }
+
         Region updatedRegion = repository.saveAndFlush(region);
 
         if (exists) {
@@ -70,11 +90,6 @@ public class RegionServiceImpl implements RegionService {
         }
 
         return Optional.of(updatedRegion);
-    }
-
-    @Override
-    public void delete(@NotNull Region region) {
-        deleteById(region.getId());
     }
 
     @Override
@@ -89,20 +104,5 @@ public class RegionServiceImpl implements RegionService {
         } else {
             LOGGER.info("The region does not exist. entityId = {}", id);
         }
-    }
-
-    @Override
-    public @Nullable Optional<Region> findByName(@NotNull String name) {
-        LOGGER.info("The search by name region has started.");
-
-        Optional<Region> found = repository.findByNameIgnoreCase(name);
-
-        if (found.isEmpty()) {
-            LOGGER.info("The region not found. name = {}", name);
-        } else {
-            LOGGER.info("The region was found. region = {}", found.get());
-        }
-
-        return found;
     }
 }

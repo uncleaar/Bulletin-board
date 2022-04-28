@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static ru.gold.ordance.board.model.utils.test.EntityGenerator.createStreet;
+import static ru.gold.ordance.board.model.entity.utils.test.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
 public class StreetServiceTest {
@@ -91,17 +91,6 @@ public class StreetServiceTest {
 
         assertEquals(newObj.getId(), updated.getId());
         assertEquals(newObj.getName(), updated.getName());
-    }
-
-    @Test
-    public void delete_streetExists() {
-        Street saved = repository.save(createStreet());
-
-        service.delete(saved);
-
-        Optional<Street> found = repository.findById(saved.getId());
-
-        assertTrue(found.isEmpty());
     }
 
     @Test
