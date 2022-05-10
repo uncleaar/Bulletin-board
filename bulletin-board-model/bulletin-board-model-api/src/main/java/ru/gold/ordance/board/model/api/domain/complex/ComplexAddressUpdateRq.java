@@ -9,6 +9,8 @@ import ru.gold.ordance.board.model.api.domain.UpdateRq;
 @Getter
 @ToString
 public class ComplexAddressUpdateRq implements UpdateRq {
+    private static final long serialVersionUID = 1L;
+
     private final String regionName;
 
     private final String localityName;

@@ -8,6 +8,8 @@ import lombok.*;
 @Getter
 @ToString
 public class WebAddress {
+    private static final long serialVersionUID = 1L;
+
     private final Long entityId;
 
     private final Long localityId;

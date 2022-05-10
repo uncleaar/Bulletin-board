@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @Getter
 @ToString
 public class WebAdvertisement {
+    private static final long serialVersionUID = 1L;
+
     private final Long entityId;
 
     private final Long clientId;

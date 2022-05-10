@@ -13,6 +13,8 @@ import java.util.List;
 @Getter
 @ToString
 public class LnkLocalityStreetGetRs implements Rs {
+    private static final long serialVersionUID = 1L;
+
     private final Status status;
 
     private final List<WebLnkLocalityStreet> lnkLocalityStreets;

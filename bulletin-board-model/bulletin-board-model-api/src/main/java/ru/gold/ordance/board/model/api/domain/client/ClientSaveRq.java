@@ -9,6 +9,8 @@ import ru.gold.ordance.board.model.api.domain.SaveRq;
 @Getter
 @ToString
 public class ClientSaveRq implements SaveRq {
+    private static final long serialVersionUID = 1L;
+
     private final String login;
 
     private final String password;

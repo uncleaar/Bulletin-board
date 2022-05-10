@@ -9,6 +9,8 @@ import ru.gold.ordance.board.model.api.domain.UpdateRq;
 @Getter
 @ToString
 public class StreetUpdateRq implements UpdateRq {
+    private static final long serialVersionUID = 1L;
+
     private final Long entityId;
 
     private final String name;

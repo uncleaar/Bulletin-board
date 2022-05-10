@@ -9,5 +9,7 @@ import ru.gold.ordance.board.model.api.domain.DeleteByIdRq;
 @Getter
 @ToString
 public class SubcategoryDeleteByIdRq implements DeleteByIdRq {
+    private static final long serialVersionUID = 1L;
+
     private final Long entityId;
 }

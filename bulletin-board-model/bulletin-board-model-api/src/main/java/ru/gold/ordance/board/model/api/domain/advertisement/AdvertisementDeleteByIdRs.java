@@ -11,6 +11,8 @@ import ru.gold.ordance.board.model.api.domain.StatusCode;
 @Getter
 @ToString
 public class AdvertisementDeleteByIdRs implements Rs {
+    private static final long serialVersionUID = 1L;
+
     private final Status status;
 
     public static AdvertisementDeleteByIdRs success() {
