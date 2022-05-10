@@ -59,7 +59,7 @@ public class AuthenticationRestControllerImpl implements AuthenticationRestContr
 
             validate(rq);
             AuthLoginRs rs = service.login(rq);
-            handleResponse(LOGGER, rs, null, null);
+            handleResponse(LOGGER, rs, rq, null);
 
             return rs;
         } catch (Exception e) {
@@ -101,7 +101,7 @@ public class AuthenticationRestControllerImpl implements AuthenticationRestContr
 
             validate(rq);
             AuthRegistrationRs rs = service.registration(rq);
-            handleResponse(LOGGER, rs, null, null);
+            handleResponse(LOGGER, rs, rq, null);
 
             return rs;
         } catch (Exception e) {
@@ -140,7 +140,7 @@ public class AuthenticationRestControllerImpl implements AuthenticationRestContr
 
             validate(rq);
             AuthTokenLifeRs rs = service.validationToken(rq);
-            handleResponse(LOGGER, rs, null, null);
+            handleResponse(LOGGER, rs, rq, null);
 
             return rs;
         } catch (Exception e) {
