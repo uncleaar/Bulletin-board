@@ -11,3 +11,4 @@ E-10) Заполнение api-слоя.
 E-11) Добавление serialVersionUID для Request и Response.
 E-12) Исправление handleResponse в AuthController.
 E-13) Удаление общего описания для rest-контроллеров.
+E-14) Удаление лишних модулей.

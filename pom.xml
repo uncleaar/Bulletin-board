@@ -24,12 +24,9 @@
     </properties>
 
     <modules>
-        <module>bulletin-board-model</module>
-        <module>bulletin-board-persistence</module>
-        <module>bulletin-board-service</module>
-        <module>bulletin-board-api</module>
         <module>bulletin-board-common</module>
-        <module>bulletin-board-web-service</module>
+        <module>bulletin-board-core</module>
+        <module>bulletin-board-web</module>
     </modules>
 
     <dependencyManagement>
@@ -37,32 +34,12 @@
             <!-- self modules -->
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
-                <artifactId>bulletin-board-model-entity</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.gold.ordance</groupId>
-                <artifactId>bulletin-board-model-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.gold.ordance</groupId>
-                <artifactId>bulletin-board-persistence</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.gold.ordance</groupId>
-                <artifactId>bulletin-board-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.gold.ordance</groupId>
-                <artifactId>bulletin-board-web-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.gold.ordance</groupId>
                 <artifactId>bulletin-board-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ru.gold.ordance</groupId>
+                <artifactId>bulletin-board-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
