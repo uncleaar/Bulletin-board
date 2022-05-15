@@ -80,12 +80,17 @@ public class AdvertisementRestControllerIntegrationTest {
 
     private Long savedClientId;
 
+    private String categoryName;
+
+    private String regionName;
+
     @BeforeEach
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
 
+        regionName = randomString();
         Long savedRegionId = regionService.update(RegionUpdateRq.builder()
-                .name(randomString())
+                .name(regionName)
                 .build())
                 .getEntityId();
 
@@ -100,8 +105,9 @@ public class AdvertisementRestControllerIntegrationTest {
                 .build())
                 .getEntityId();
 
+        categoryName = randomString();
         Long savedCategoryId = categoryService.update(CategoryUpdateRq.builder()
-                .name(randomString())
+                .name(categoryName)
                 .build())
                 .getEntityId();
 
@@ -273,6 +279,162 @@ public class AdvertisementRestControllerIntegrationTest {
                 .intValue();
 
         mockMvc.perform(get(ENDPOINT + savedAdvertisementId))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(SUCCESS)))
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.advertisementList", hasSize(foundOne)))
+                .andExpect(jsonPath("$.advertisementList[0].entityId", equalTo(savedAdvertisementId)))
+                .andExpect(jsonPath("$.advertisementList[0].clientId", equalTo(savedClientId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].name", is(savedName)))
+                .andExpect(jsonPath("$.advertisementList[0].subcategoryId", equalTo(savedSubcategoryId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].description", is(savedDescription)))
+                .andExpect(jsonPath("$.advertisementList[0].price", equalTo(savedPrice)))
+                .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].houseNumber", is(savedHouseNumber)))
+                .andExpect(jsonPath("$.total", is(foundOne)));
+    }
+
+    @Test
+    public void findByCategoryName_notFound() throws Exception {
+        String fakeName = randomString();
+        final int noOneHasBeenFound = 0;
+
+        mockMvc.perform(get(ENDPOINT + "category-name/" + fakeName))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(SUCCESS)))
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.advertisementList", hasSize(noOneHasBeenFound)))
+                .andExpect(jsonPath("$.total", is(noOneHasBeenFound)));
+    }
+
+    @Test
+    public void findByCategoryName_found() throws Exception {
+        final int foundOne = 1;
+
+        final String savedName = randomString();
+        final String savedDescription = randomString();
+        final int savedPrice = generatePositiveInt();
+        final String savedHouseNumber = randomString();
+
+        final int savedAdvertisementId = service.update(AdvertisementUpdateRq.builder()
+                .clientId(savedClientId)
+                .name(savedName)
+                .subcategoryId(savedSubcategoryId)
+                .description(savedDescription)
+                .price(savedPrice)
+                .localityId(savedLocalityId)
+                .streetId(savedStreetId)
+                .houseNumber(savedHouseNumber)
+                .build())
+                .getEntityId()
+                .intValue();
+
+        mockMvc.perform(get(ENDPOINT + "category-name/" + categoryName))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(SUCCESS)))
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.advertisementList", hasSize(foundOne)))
+                .andExpect(jsonPath("$.advertisementList[0].entityId", equalTo(savedAdvertisementId)))
+                .andExpect(jsonPath("$.advertisementList[0].clientId", equalTo(savedClientId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].name", is(savedName)))
+                .andExpect(jsonPath("$.advertisementList[0].subcategoryId", equalTo(savedSubcategoryId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].description", is(savedDescription)))
+                .andExpect(jsonPath("$.advertisementList[0].price", equalTo(savedPrice)))
+                .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].houseNumber", is(savedHouseNumber)))
+                .andExpect(jsonPath("$.total", is(foundOne)));
+    }
+
+    @Test
+    public void findByRegionName_notFound() throws Exception {
+        String fakeName = randomString();
+        final int noOneHasBeenFound = 0;
+
+        mockMvc.perform(get(ENDPOINT + "region-name/" + fakeName))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(SUCCESS)))
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.advertisementList", hasSize(noOneHasBeenFound)))
+                .andExpect(jsonPath("$.total", is(noOneHasBeenFound)));
+    }
+
+    @Test
+    public void findByRegionName_found() throws Exception {
+        final int foundOne = 1;
+
+        final String savedName = randomString();
+        final String savedDescription = randomString();
+        final int savedPrice = generatePositiveInt();
+        final String savedHouseNumber = randomString();
+
+        final int savedAdvertisementId = service.update(AdvertisementUpdateRq.builder()
+                .clientId(savedClientId)
+                .name(savedName)
+                .subcategoryId(savedSubcategoryId)
+                .description(savedDescription)
+                .price(savedPrice)
+                .localityId(savedLocalityId)
+                .streetId(savedStreetId)
+                .houseNumber(savedHouseNumber)
+                .build())
+                .getEntityId()
+                .intValue();
+
+        mockMvc.perform(get(ENDPOINT + "region-name/" + regionName))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(SUCCESS)))
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.advertisementList", hasSize(foundOne)))
+                .andExpect(jsonPath("$.advertisementList[0].entityId", equalTo(savedAdvertisementId)))
+                .andExpect(jsonPath("$.advertisementList[0].clientId", equalTo(savedClientId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].name", is(savedName)))
+                .andExpect(jsonPath("$.advertisementList[0].subcategoryId", equalTo(savedSubcategoryId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].description", is(savedDescription)))
+                .andExpect(jsonPath("$.advertisementList[0].price", equalTo(savedPrice)))
+                .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
+                .andExpect(jsonPath("$.advertisementList[0].houseNumber", is(savedHouseNumber)))
+                .andExpect(jsonPath("$.total", is(foundOne)));
+    }
+
+    @Test
+    public void findByCategoryNameAndRegionName_notFound() throws Exception {
+        String fakeName = randomString();
+        final int noOneHasBeenFound = 0;
+
+        mockMvc.perform(get(ENDPOINT + "region-name/" + fakeName))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(SUCCESS)))
+                .andExpect(jsonPath("$.status.description", nullValue()))
+                .andExpect(jsonPath("$.advertisementList", hasSize(noOneHasBeenFound)))
+                .andExpect(jsonPath("$.total", is(noOneHasBeenFound)));
+    }
+
+    @Test
+    public void findByCategoryNameAndRegionName_found() throws Exception {
+        final int foundOne = 1;
+
+        final String savedName = randomString();
+        final String savedDescription = randomString();
+        final int savedPrice = generatePositiveInt();
+        final String savedHouseNumber = randomString();
+
+        final int savedAdvertisementId = service.update(AdvertisementUpdateRq.builder()
+                .clientId(savedClientId)
+                .name(savedName)
+                .subcategoryId(savedSubcategoryId)
+                .description(savedDescription)
+                .price(savedPrice)
+                .localityId(savedLocalityId)
+                .streetId(savedStreetId)
+                .houseNumber(savedHouseNumber)
+                .build())
+                .getEntityId()
+                .intValue();
+
+        mockMvc.perform(get(ENDPOINT + "category-name/" + categoryName + "/region-name/" + regionName))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(SUCCESS)))
                 .andExpect(jsonPath("$.status.description", nullValue()))

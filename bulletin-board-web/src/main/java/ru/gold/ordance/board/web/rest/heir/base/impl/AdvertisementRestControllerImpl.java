@@ -100,6 +100,124 @@ public class AdvertisementRestControllerImpl implements AdvertisementRestControl
     }
 
     @Override
+    @GetMapping(value = "/category-name/{name}", produces = JSON)
+    @Operation(summary = "Get advertisement by category name", tags = "search")
+    @ApiResponses({
+            @ApiResponse(responseCode = "SUCCESS",
+                    description = "Success request. Size of the list is {0, ..., n}.",
+                    content = @Content(mediaType = JSON,
+                            examples = @ExampleObject(FIND_SUCCESS))),
+
+            @ApiResponse(responseCode = "INVALID_RQ",
+                    description = "Invalid request.",
+                    content = @Content(mediaType = JSON,
+                            examples = @ExampleObject(FIND_INVALID_RQ))),
+
+            @ApiResponse(responseCode = "CALL_ERROR",
+                    description = "Internal Server Error.",
+                    content = @Content(mediaType = JSON,
+                            examples = @ExampleObject(FIND_CALL_ERROR)))
+    })
+    public AdvertisementGetRs findByCategoryName(@PathVariable String name) {
+        AdvertisementGetByCategoryNameRq rq = new AdvertisementGetByCategoryNameRq(name);
+
+        try {
+            LOGGER.info("Get by category name request received: {}", rq);
+
+            validate(rq);
+            AdvertisementGetRs rs = service.findByCategoryName(rq);
+            handleResponse(LOGGER, rs, rq, null);
+
+            return rs;
+        } catch (Exception e) {
+            Status status = toStatus(e);
+            AdvertisementGetRs rs = AdvertisementGetRs.error(status.getCode(), status.getDescription());
+            handleResponse(LOGGER, rs, rq, e);
+
+            return rs;
+        }
+    }
+
+    @Override
+    @GetMapping(value = "/region-name/{name}", produces = JSON)
+    @Operation(summary = "Get advertisement by region name", tags = "search")
+    @ApiResponses({
+            @ApiResponse(responseCode = "SUCCESS",
+                    description = "Success request. Size of the list is {0, ..., n}.",
+                    content = @Content(mediaType = JSON,
+                            examples = @ExampleObject(FIND_SUCCESS))),
+
+            @ApiResponse(responseCode = "INVALID_RQ",
+                    description = "Invalid request.",
+                    content = @Content(mediaType = JSON,
+                            examples = @ExampleObject(FIND_INVALID_RQ))),
+
+            @ApiResponse(responseCode = "CALL_ERROR",
+                    description = "Internal Server Error.",
+                    content = @Content(mediaType = JSON,
+                            examples = @ExampleObject(FIND_CALL_ERROR)))
+    })
+    public AdvertisementGetRs findByRegionName(@PathVariable String name) {
+        AdvertisementGetByRegionNameRq rq = new AdvertisementGetByRegionNameRq(name);
+
+        try {
+            LOGGER.info("Get by region name request received: {}", rq);
+
+            validate(rq);
+            AdvertisementGetRs rs = service.findByRegionName(rq);
+            handleResponse(LOGGER, rs, rq, null);
+
+            return rs;
+        } catch (Exception e) {
+            Status status = toStatus(e);
+            AdvertisementGetRs rs = AdvertisementGetRs.error(status.getCode(), status.getDescription());
+            handleResponse(LOGGER, rs, rq, e);
+
+            return rs;
+        }
+    }
+
+    @Override
+    @GetMapping(value = "/category-name/{categoryName}/region-name/{regionName}", produces = JSON)
+    @Operation(summary = "Get advertisement by region name", tags = "search")
+    @ApiResponses({
+            @ApiResponse(responseCode = "SUCCESS",
+                    description = "Success request. Size of the list is {0, ..., n}.",
+                    content = @Content(mediaType = JSON,
+                            examples = @ExampleObject(FIND_SUCCESS))),
+
+            @ApiResponse(responseCode = "INVALID_RQ",
+                    description = "Invalid request.",
+                    content = @Content(mediaType = JSON,
+                            examples = @ExampleObject(FIND_INVALID_RQ))),
+
+            @ApiResponse(responseCode = "CALL_ERROR",
+                    description = "Internal Server Error.",
+                    content = @Content(mediaType = JSON,
+                            examples = @ExampleObject(FIND_CALL_ERROR)))
+    })
+    public AdvertisementGetRs findByCategoryNameAndRegionName(@PathVariable String categoryName, @PathVariable String regionName) {
+        AdvertisementGetByCategoryNameAndRegionNameRq rq =
+                new AdvertisementGetByCategoryNameAndRegionNameRq(categoryName, regionName);
+
+        try {
+            LOGGER.info("Get by category name and region name request received: {}", rq);
+
+            validate(rq);
+            AdvertisementGetRs rs = service.findByCategoryNameAndRegionName(rq);
+            handleResponse(LOGGER, rs, rq, null);
+
+            return rs;
+        } catch (Exception e) {
+            Status status = toStatus(e);
+            AdvertisementGetRs rs = AdvertisementGetRs.error(status.getCode(), status.getDescription());
+            handleResponse(LOGGER, rs, rq, e);
+
+            return rs;
+        }
+    }
+
+    @Override
     @GetMapping(value = "/name/{name}", produces = JSON)
     @Operation(summary = "Get advertisement by name", tags = "search")
     @ApiResponses({

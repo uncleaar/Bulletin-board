@@ -3,6 +3,7 @@ package ru.gold.ordance.board.web.validation;
 import ru.gold.ordance.board.web.api.GetByIdRq;
 import ru.gold.ordance.board.web.api.GetByNameRq;
 import ru.gold.ordance.board.web.api.GetRq;
+import ru.gold.ordance.board.web.api.advertisement.AdvertisementGetByCategoryNameAndRegionNameRq;
 import ru.gold.ordance.board.web.api.client.ClientGetByLoginRq;
 import ru.gold.ordance.board.web.api.lnk.LnkLocalityStreetGetByLSRq;
 import ru.gold.ordance.board.web.api.lnk.LnkLocalityStreetGetByLocalityRq;
@@ -26,6 +27,8 @@ class GetValidation implements RequestValidation<GetRq> {
                validateRequest((LnkLocalityStreetGetByLSRq) rq);
             } else if (rq instanceof ClientGetByLoginRq) {
                 validateRequest((ClientGetByLoginRq) rq);
+            } else if (rq instanceof AdvertisementGetByCategoryNameAndRegionNameRq) {
+                validateRequest((AdvertisementGetByCategoryNameAndRegionNameRq) rq);
             } else {
                 throw new IllegalArgumentException("The transmitted rq is not supported by the current method.");
             }
@@ -47,5 +50,10 @@ class GetValidation implements RequestValidation<GetRq> {
 
     private void validateRequest(ClientGetByLoginRq rq) {
         errorString(rq.getLogin(), "login");
+    }
+
+    private void validateRequest(AdvertisementGetByCategoryNameAndRegionNameRq rq) {
+        errorString(rq.getCategoryName(), "categoryName");
+        errorString(rq.getRegionName(), "regionName");
     }
 }

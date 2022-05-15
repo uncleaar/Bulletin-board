@@ -57,6 +57,39 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public List<Advertisement> findByCategoryName(String name) {
+        LOGGER.info("The search by category name advertisements has started.");
+
+        List<Advertisement> advertisements = repository.findAdvertisementsBySubcategory_Category_Name(name);
+
+        LOGGER.info("Size of list: {}", advertisements.size());
+
+        return advertisements;
+    }
+
+    @Override
+    public List<Advertisement> findByRegionName(String name) {
+        LOGGER.info("The search by region name advertisements has started.");
+
+        List<Advertisement> advertisements = repository.findAdvertisementsByLocality_Region_Name(name);
+
+        LOGGER.info("Size of list: {}", advertisements.size());
+
+        return advertisements;
+    }
+
+    @Override
+    public List<Advertisement> findByCategoryNameAndRegionName(String categoryName, String regionName) {
+        LOGGER.info("The search by category name and region name advertisements has started.");
+
+        List<Advertisement> advertisements = repository.findAll();
+
+        LOGGER.info("Size of list: {}", advertisements.size());
+
+        return advertisements;
+    }
+
+    @Override
     public List<Advertisement> findAllByName(@NotNull String name) {
         LOGGER.info("The search by name advertisements has started.");
 

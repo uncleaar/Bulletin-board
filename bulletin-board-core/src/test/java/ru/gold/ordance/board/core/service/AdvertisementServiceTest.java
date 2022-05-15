@@ -99,6 +99,107 @@ public class AdvertisementServiceTest {
     }
 
     @Test
+    public void findByCategoryName_notFound() {
+        String fakeName = Strings.EMPTY;
+        int noOneHasBeenFound = 0;
+
+        List<Advertisement> found = service.findByCategoryName(fakeName);
+
+        assertEquals(noOneHasBeenFound, found.size());
+    }
+
+    @Test
+    public void findByCategoryName_foundOne() {
+        int foundOne = 1;
+        Advertisement saved =
+                repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
+
+        List<Advertisement> found = service.findByCategoryName(saved.getSubcategory().getCategory().getName());
+
+        assertEquals(foundOne, found.size());
+    }
+
+    @Test
+    public void findByCategoryName_foundALot() {
+        int foundALot = 2;
+
+        repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
+        repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
+
+        List<Advertisement> found = service.findByCategoryName(savedSubcategory.getCategory().getName());
+
+        assertEquals(foundALot, found.size());
+    }
+
+    @Test
+    public void findByRegionName_notFound() {
+        String fakeName = Strings.EMPTY;
+        int noOneHasBeenFound = 0;
+
+        List<Advertisement> found = service.findByRegionName(fakeName);
+
+        assertEquals(noOneHasBeenFound, found.size());
+    }
+
+    @Test
+    public void findByRegionName_foundOne() {
+        int foundOne = 1;
+
+        repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
+
+        List<Advertisement> found = service.findByRegionName(savedLocality.getRegion().getName());
+
+        assertEquals(foundOne, found.size());
+    }
+
+    @Test
+    public void findByRegionName_foundALot() {
+        int foundALot = 2;
+
+        repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
+        repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
+
+        List<Advertisement> found = service.findByRegionName(savedLocality.getRegion().getName());
+
+        assertEquals(foundALot, found.size());
+    }
+
+    @Test
+    public void findByCategoryNameAndRegionName_notFound() {
+        String fakeName = Strings.EMPTY;
+        int noOneHasBeenFound = 0;
+
+        List<Advertisement> found = service.findByCategoryNameAndRegionName(fakeName, fakeName);
+
+        assertEquals(noOneHasBeenFound, found.size());
+    }
+
+    @Test
+    public void findByCategoryNameAndRegionName_foundOne() {
+        int foundOne = 1;
+
+        repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
+
+        List<Advertisement> found = service.findByCategoryNameAndRegionName(
+                savedSubcategory.getCategory().getName(), savedLocality.getRegion().getName());
+
+        assertEquals(foundOne, found.size());
+    }
+
+    @Test
+    public void findByCategoryNameAndRegionName_foundALot() {
+        int foundALot = 2;
+
+        repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
+        repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet));
+
+        List<Advertisement> found = service.findByCategoryNameAndRegionName(
+                savedSubcategory.getCategory().getName(), savedLocality.getRegion().getName());
+
+        assertEquals(foundALot, found.size());
+    }
+
+    @Test
     public void update_saveAdvertisement_clientOrSubcategoryOrStreetOrLocalityDoesNotExistInStorage() {
         Advertisement created = createAdvertisement(999L);
 

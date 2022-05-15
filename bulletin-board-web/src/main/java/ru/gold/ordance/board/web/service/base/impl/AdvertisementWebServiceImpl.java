@@ -44,6 +44,27 @@ public class AdvertisementWebServiceImpl implements AdvertisementWebService {
     }
 
     @Override
+    public AdvertisementGetRs findByCategoryName(AdvertisementGetByCategoryNameRq rq) {
+        List<Advertisement> found = service.findByCategoryName(rq.getName());
+
+        return list(found);
+    }
+
+    @Override
+    public AdvertisementGetRs findByRegionName(AdvertisementGetByRegionNameRq rq) {
+        List<Advertisement> found = service.findByRegionName(rq.getName());
+
+        return list(found);
+    }
+
+    @Override
+    public AdvertisementGetRs findByCategoryNameAndRegionName(AdvertisementGetByCategoryNameAndRegionNameRq rq) {
+        List<Advertisement> found = service.findByCategoryNameAndRegionName(rq.getCategoryName(), rq.getRegionName());
+
+        return list(found);
+    }
+
+    @Override
     public AdvertisementGetRs findByName(AdvertisementGetByNameRq rq) {
         List<Advertisement> found = service.findAllByName(rq.getName());
 

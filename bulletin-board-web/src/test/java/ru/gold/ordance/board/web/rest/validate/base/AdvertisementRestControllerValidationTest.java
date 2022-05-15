@@ -58,6 +58,60 @@ public class AdvertisementRestControllerValidationTest {
     }
 
     @Test
+    public void findByCategoryName_nameIsEmpty_invalidRq() throws Exception {
+        final String name = " ";
+        final String errorMessage = "The name is empty.";
+
+        mockMvc.perform(get(ENDPOINT + "category-name/" + name))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
+                .andExpect(jsonPath("$.advertisementList", nullValue()))
+                .andExpect(jsonPath("$.total", nullValue()));
+    }
+
+    @Test
+    public void findByRegionName_nameIsEmpty_invalidRq() throws Exception {
+        final String name = " ";
+        final String errorMessage = "The name is empty.";
+
+        mockMvc.perform(get(ENDPOINT + "region-name/" + name))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
+                .andExpect(jsonPath("$.advertisementList", nullValue()))
+                .andExpect(jsonPath("$.total", nullValue()));
+    }
+
+    @Test
+    public void findByCategoryNameAndRegionName_categoryNameIsEmpty_invalidRq() throws Exception {
+        final String categoryName = " ";
+        final String regionName = randomString();
+        final String errorMessage = "The categoryName is empty.";
+
+        mockMvc.perform(get(ENDPOINT + "category-name/" + categoryName + "/region-name/" + regionName))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
+                .andExpect(jsonPath("$.advertisementList", nullValue()))
+                .andExpect(jsonPath("$.total", nullValue()));
+    }
+
+    @Test
+    public void findByCategoryNameAndRegionName_regionNameIsEmpty_invalidRq() throws Exception {
+        final String categoryName = randomString();
+        final String regionName = " ";
+        final String errorMessage = "The regionName is empty.";
+
+        mockMvc.perform(get(ENDPOINT + "category-name/" + categoryName + "/region-name/" + regionName))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
+                .andExpect(jsonPath("$.advertisementList", nullValue()))
+                .andExpect(jsonPath("$.total", nullValue()));
+    }
+
+    @Test
     public void findByName_nameIsEmpty_invalidRq() throws Exception {
         final String name = " ";
         final String errorMessage = "The name is empty.";
