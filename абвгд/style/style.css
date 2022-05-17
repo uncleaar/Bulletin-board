@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: aqua;
+  padding-bottom: 30px;
+}
+
+.header__wrap {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  vertical-align: center;
+}
+
+.header__wrap__left {
+  display: flex;
+}
+
+.header__wrap__logo {
+  width: 40px;
+  height: 40px;
+}
+
+.header__wrap__title {
+  padding-left: 15px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 31px;
+  line-height: 38px;
+  color: #000000;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+}
+
+.header__wrap__nav {
+  display: flex;
+  margin-left: 30px;
+}
+
+.header__wrap__left__category {
+  text-decoration: none;
+  color: #000000;
+  margin: auto 10px;
+}
+
+.header__wrap__left__category:hover {
+  color: orange;
+}
+
+.header__wrap__right {
+  display: flex;
+}
+
+.header__wrap__right__buttons {
+  display: flex;
+  margin: auto 0;
+  vertical-align: center;
+}
+
+.header__wrap__right__buttons__registration {
+  font-weight: 500;
+  font-size: 20px;
+  color: #000000;
+  text-decoration: none;
+  margin: auto 0;
+}
+
+.header__wrap__right__buttons__ad {
+  margin-left: 25px;
+  font-size: 16px;
+  line-height: 19px;
+  background-color: #fee68e;
+  color: #000000;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+
+.header__wrap__right__buttons__ad:hover {
+  background-color: #fdb44e;
+}
+
+.header__search {
+  background-color: #000000;
+  display: flex;
+  padding: 2px;
+  border-radius: 4px 0 0 4px;
+  min-height: 40px;
+}
+
+.header__search__select__category {
+  border-radius: inherit;
+  background-color: white;
+  border: none;
+  font-size: 14px;
+  line-height: normal;
+  padding-left: 5px;
+  padding-right: 25px;
+  outline: none;
+}
+
+.header__search__input {
+  width: 100%;
+  font-size: 14px;
+  line-height: normal;
+  outline: none;
+  border: none;
+  margin: 0 2px;
+  padding: 0 15px;
+  border-radius: 0 4px 4px 0;
+}
+
+.header__search__select__city {
+  border-radius: 4px;
+  background-color: white;
+  border: none;
+  font-size: 14px;
+  line-height: normal;
+  padding-left: 5px;
+  padding-right: 25px;
+  outline: none;
+  margin-right: 2px;
+}
+
+.header__search__button {
+  min-width: 80px;
+  background: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: normal;
+  border-radius: 4px;
+  border: none;
+}
+
+.header__search__button:hover {
+  background-color: gray;
+}
