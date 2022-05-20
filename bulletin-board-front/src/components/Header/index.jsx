@@ -1,8 +1,11 @@
 import React from "react";
+import { useModal } from "../../hooks/useModal";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import styles from "./index.module.css";
 
-const Header = () => {
+const Header = ({ open }) => {
+  // const { open } = useModal();
+
   return (
     <header>
       <div className="container">
@@ -26,12 +29,12 @@ const Header = () => {
           </div>
           <div className={styles.header__wrap__right}>
             <div className={styles.header__wrap__right__buttons}>
-              <a
-                href=""
+              <div
                 className={styles.header__wrap__right__buttons__registration}
+                onClick={() => open()}
               >
                 Вход и регистрация
-              </a>
+              </div>
               <a href="" className={styles.header__wrap__right__buttons__ad}>
                 Подать объявление
               </a>

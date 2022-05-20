@@ -1,0 +1,17 @@
+.modal {
+  width: 400px;
+  padding: 24px 16px;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+  background: white;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
+}
