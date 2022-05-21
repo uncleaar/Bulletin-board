@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -30,6 +31,7 @@ import static ru.gold.ordance.board.common.utils.TestUtils.*;
 @AutoConfigureTestDatabase
 @WebAppConfiguration
 @ActiveProfiles("test")
+@PropertySource("classpath:application-test.properties")
 public class AdvertisementRestControllerValidationTest {
     private final static String ENDPOINT = "/api/v1/advertisements/";
     private final static String INVALID_RQ = "INVALID_RQ";
@@ -138,6 +140,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -163,6 +166,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -188,6 +192,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -214,6 +219,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -239,6 +245,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -264,6 +271,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -289,6 +297,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -314,6 +323,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(null)
                 .streetId(generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -339,6 +349,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(-generateId())
                 .streetId(generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -364,6 +375,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(null)
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -389,6 +401,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(-generateId())
                 .houseNumber(randomString())
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -414,6 +427,7 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(generateId())
                 .houseNumber(null)
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -440,11 +454,64 @@ public class AdvertisementRestControllerValidationTest {
                 .localityId(generateId())
                 .streetId(generateId())
                 .houseNumber(houseNumber)
+                .photoId(generateId())
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
                 .content(toJSON(rq))
                 .contentType(JSON))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
+                .andExpect(jsonPath("$.updated", is(updated)));
+    }
+
+    @Test
+    public void update_photoIdIsNull_invalidRq() throws Exception {
+        final boolean updated = false;
+        final String errorMessage = "The streetId is null.";
+
+        AdvertisementUpdateRq rq = AdvertisementUpdateRq.builder()
+                .clientId(generateId())
+                .name(randomString())
+                .subcategoryId(generateId())
+                .description(randomString())
+                .price(generatePositiveInt())
+                .localityId(generateId())
+                .streetId(generateId())
+                .houseNumber(randomString())
+                .photoId(null)
+                .build();
+
+        mockMvc.perform(post(ENDPOINT)
+                        .content(toJSON(rq))
+                        .contentType(JSON))
+                .andExpect(content().contentType(JSON))
+                .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
+                .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))
+                .andExpect(jsonPath("$.updated", is(updated)));
+    }
+
+    @Test
+    public void update_photoIdIsNotPositive_invalidRq() throws Exception {
+        final boolean updated = false;
+        final String errorMessage = "The streetId is not positive.";
+
+        AdvertisementUpdateRq rq = AdvertisementUpdateRq.builder()
+                .clientId(generateId())
+                .name(randomString())
+                .subcategoryId(generateId())
+                .description(randomString())
+                .price(generatePositiveInt())
+                .localityId(generateId())
+                .streetId(generateId())
+                .houseNumber(randomString())
+                .photoId(-generateId())
+                .build();
+
+        mockMvc.perform(post(ENDPOINT)
+                        .content(toJSON(rq))
+                        .contentType(JSON))
                 .andExpect(content().contentType(JSON))
                 .andExpect(jsonPath("$.status.code", is(INVALID_RQ)))
                 .andExpect(jsonPath("$.status.description", equalTo(errorMessage)))

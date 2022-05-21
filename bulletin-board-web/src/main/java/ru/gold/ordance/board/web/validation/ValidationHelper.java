@@ -43,4 +43,10 @@ final class ValidationHelper {
             error("The " + fieldName + " is not positive.");
         }
     }
+
+    public static void errorTrue(boolean condition, String message) {
+        if (condition) {
+            error(message);
+        }
+    }
 }

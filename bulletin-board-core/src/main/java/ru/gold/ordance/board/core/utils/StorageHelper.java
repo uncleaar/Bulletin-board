@@ -51,13 +51,15 @@ public class StorageHelper {
         Optional<Subcategory> subcategory = find(Subcategory.class, o.getSubcategory().getId());
         Optional<Locality> locality = find(Locality.class, o.getLocality().getId());
         Optional<Street> street = find(Street.class, o.getStreet().getId());
+        Optional<Photo> photo = find(Photo.class, o.getPhoto().getId());
 
         return client.isPresent()
                 && subcategory.isPresent()
                 && existsExternal(subcategory.get())
                 && street.isPresent()
                 && locality.isPresent()
-                && existsExternal(locality.get());
+                && existsExternal(locality.get())
+                && photo.isPresent();
     }
 
     private boolean exists(LnkLocalityStreet o) {

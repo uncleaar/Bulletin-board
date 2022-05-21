@@ -12,6 +12,14 @@ import org.springframework.context.annotation.Profile;
 public class SwaggerConfig {
 
     @Bean
+    public GroupedOpenApi photoOpenApi(@Value("${photo.info.title:}") String title,
+                                       @Value("${photo.group-name:}") String groupName,
+                                       @Value("${photo.paths:}") String [] paths) {
+        return controller(title, groupName, paths)
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi addressOpenApi(@Value("${address.info.title:}") String title,
                                          @Value("${address.group-name:}") String groupName,
                                          @Value("${address.paths:}") String [] paths) {

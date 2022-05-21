@@ -26,6 +26,9 @@ public class AdvertisementMapperImpl implements AdvertisementMapper {
                         .id(rq.getStreetId())
                         .build())
                 .houseNumber(rq.getHouseNumber())
+                .photo(Photo.builder()
+                        .id(rq.getPhotoId())
+                        .build())
                 .build();
     }
 
@@ -42,6 +45,7 @@ public class AdvertisementMapperImpl implements AdvertisementMapper {
                 .localityId(entity.getLocality().getId())
                 .streetId(entity.getStreet().getId())
                 .houseNumber(entity.getHouseNumber())
+                .photoId(entity.getPhoto().getId())
                 .build();
     }
 }

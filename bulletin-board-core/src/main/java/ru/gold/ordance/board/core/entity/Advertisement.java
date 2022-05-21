@@ -50,4 +50,7 @@ public class Advertisement implements AbstractEntity {
     private Street street;
 
     private String houseNumber;
+
+    @ManyToOne
+    private Photo photo;
 }

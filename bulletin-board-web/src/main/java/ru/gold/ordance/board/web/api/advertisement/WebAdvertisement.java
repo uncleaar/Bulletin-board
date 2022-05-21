@@ -31,4 +31,6 @@ public class WebAdvertisement {
     private final Long streetId;
 
     private final String houseNumber;
+
+    private final Long photoId;
 }

@@ -103,6 +103,19 @@ public final class EntityGenerator {
                 .build();
     }
 
+    public static Photo createPhoto() {
+        return Photo.builder()
+                .urn(randomString())
+                .build();
+    }
+
+    public static Photo createPhoto(Long id) {
+        return Photo.builder()
+                .id(id)
+                .urn(randomString())
+                .build();
+    }
+
     public static Region createRegion() {
         return Region.builder()
                 .name(randomString())
@@ -195,6 +208,16 @@ public final class EntityGenerator {
                 .build();
     }
 
+    public static Advertisement createAdvertisement(Client client, Subcategory subcategory, Locality locality, Street street, Photo photo) {
+        return createBaseAdvertisement()
+                .client(client)
+                .subcategory(subcategory)
+                .locality(locality)
+                .street(street)
+                .photo(photo)
+                .build();
+    }
+
     public static Advertisement createAdvertisement(Client client, Subcategory subcategory, Locality locality, Street street, String name) {
         return createBaseAdvertisement()
                 .name(name)
@@ -211,6 +234,7 @@ public final class EntityGenerator {
                 .subcategory(createSubcategory(id))
                 .locality(createLocality(id))
                 .street(createStreet(id))
+                .photo(createPhoto(id))
                 .build();
     }
 

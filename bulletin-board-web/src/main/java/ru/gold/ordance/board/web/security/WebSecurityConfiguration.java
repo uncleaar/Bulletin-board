@@ -13,7 +13,7 @@ import ru.gold.ordance.board.core.config.CoreConfiguration;
 @Configuration
 @EnableWebSecurity
 @Import(CoreConfiguration.class)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override

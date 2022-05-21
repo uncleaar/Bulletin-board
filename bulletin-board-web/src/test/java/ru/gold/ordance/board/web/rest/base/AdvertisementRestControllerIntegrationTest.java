@@ -5,8 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +24,7 @@ import ru.gold.ordance.board.web.api.advertisement.AdvertisementUpdateRq;
 import ru.gold.ordance.board.web.api.category.CategoryUpdateRq;
 import ru.gold.ordance.board.web.api.client.ClientSaveRq;
 import ru.gold.ordance.board.web.api.locality.LocalityUpdateRq;
+import ru.gold.ordance.board.web.api.photo.PhotoSaveRq;
 import ru.gold.ordance.board.web.api.region.RegionUpdateRq;
 import ru.gold.ordance.board.web.api.street.StreetUpdateRq;
 import ru.gold.ordance.board.web.api.subcategory.SubcategoryUpdateRq;
@@ -30,10 +35,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static ru.gold.ordance.board.common.utils.TestUtils.*;
 import static ru.gold.ordance.board.web.utils.RequestUtils.*;
 import static ru.gold.ordance.board.web.utils.RequestUtils.toJSON;
-import static ru.gold.ordance.board.common.utils.TestUtils.generatePositiveInt;
-import static ru.gold.ordance.board.common.utils.TestUtils.randomString;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { Main.class })
@@ -41,10 +45,10 @@ import static ru.gold.ordance.board.common.utils.TestUtils.randomString;
 @Transactional
 @WebAppConfiguration
 @ActiveProfiles("test")
+@PropertySource("classpath:application-test.properties")
 public class AdvertisementRestControllerIntegrationTest {
     private final static String ENDPOINT = "/api/v1/advertisements/";
     private final static String SUCCESS = "SUCCESS";
-    private final static String VIOLATES_CONSTRAINT = "VIOLATES_CONSTRAINT";
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -72,6 +76,9 @@ public class AdvertisementRestControllerIntegrationTest {
     @Autowired
     private ClientWebService clientService;
 
+    @Autowired
+    private PhotoWebService photoService;
+
     private Long savedLocalityId;
 
     private Long savedStreetId;
@@ -80,12 +87,14 @@ public class AdvertisementRestControllerIntegrationTest {
 
     private Long savedClientId;
 
+    private Long savedPhotoId;
+
     private String categoryName;
 
     private String regionName;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
 
         regionName = randomString();
@@ -124,6 +133,16 @@ public class AdvertisementRestControllerIntegrationTest {
                 .phoneNumber(randomString())
                 .build())
                 .getEntityId();
+
+        savedPhotoId = photoService.save(PhotoSaveRq.builder()
+                .file(new MockMultipartFile(
+                        randomString(),
+                        randomFullFileName(),
+                        MediaType.IMAGE_PNG_VALUE,
+                        randomString().getBytes()
+                ))
+                .build())
+                .getEntityId();
     }
 
     @Test
@@ -156,6 +175,7 @@ public class AdvertisementRestControllerIntegrationTest {
                         .localityId(savedLocalityId)
                         .streetId(savedStreetId)
                         .houseNumber(savedHouseNumber)
+                        .photoId(savedPhotoId)
                         .build())
                 .getEntityId()
                 .intValue();
@@ -174,6 +194,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].houseNumber", is(savedHouseNumber)))
+                .andExpect(jsonPath("$.advertisementList[0].photoId", equalTo(savedPhotoId.intValue())))
                 .andExpect(jsonPath("$.total", is(foundOne)));
     }
 
@@ -195,6 +216,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(firstHouseNumber)
+                .photoId(savedPhotoId)
                 .build())
                 .getEntityId()
                 .intValue();
@@ -213,6 +235,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(secondHouseNumber)
+                .photoId(savedPhotoId)
                 .build())
                 .getEntityId()
                 .intValue();
@@ -231,6 +254,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].houseNumber", oneOf(firstHouseNumber, secondHouseNumber)))
+                .andExpect(jsonPath("$.advertisementList[0].photoId", equalTo(savedPhotoId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[1].entityId", oneOf(firstAdvertisementId, secondAdvertisementId)))
                 .andExpect(jsonPath("$.advertisementList[1].clientId", equalTo(savedClientId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[1].name", oneOf(firstName, secondName)))
@@ -240,6 +264,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.advertisementList[1].localityId", equalTo(savedLocalityId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[1].streetId", equalTo(savedStreetId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[1].houseNumber", oneOf(firstHouseNumber, secondHouseNumber)))
+                .andExpect(jsonPath("$.advertisementList[1].photoId", equalTo(savedPhotoId.intValue())))
                 .andExpect(jsonPath("$.total", is(foundALot)));
     }
 
@@ -274,6 +299,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(savedHouseNumber)
+                .photoId(savedPhotoId)
                 .build())
                 .getEntityId()
                 .intValue();
@@ -292,6 +318,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].houseNumber", is(savedHouseNumber)))
+                .andExpect(jsonPath("$.advertisementList[0].photoId", equalTo(savedPhotoId.intValue())))
                 .andExpect(jsonPath("$.total", is(foundOne)));
     }
 
@@ -326,6 +353,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(savedHouseNumber)
+                .photoId(savedPhotoId)
                 .build())
                 .getEntityId()
                 .intValue();
@@ -344,6 +372,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].houseNumber", is(savedHouseNumber)))
+                .andExpect(jsonPath("$.advertisementList[0].photoId", equalTo(savedPhotoId.intValue())))
                 .andExpect(jsonPath("$.total", is(foundOne)));
     }
 
@@ -378,6 +407,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(savedHouseNumber)
+                .photoId(savedPhotoId)
                 .build())
                 .getEntityId()
                 .intValue();
@@ -396,6 +426,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].houseNumber", is(savedHouseNumber)))
+                .andExpect(jsonPath("$.advertisementList[0].photoId", equalTo(savedPhotoId.intValue())))
                 .andExpect(jsonPath("$.total", is(foundOne)));
     }
 
@@ -430,6 +461,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(savedHouseNumber)
+                .photoId(savedPhotoId)
                 .build())
                 .getEntityId()
                 .intValue();
@@ -448,6 +480,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].houseNumber", is(savedHouseNumber)))
+                .andExpect(jsonPath("$.advertisementList[0].photoId", equalTo(savedPhotoId.intValue())))
                 .andExpect(jsonPath("$.total", is(foundOne)));
     }
 
@@ -482,6 +515,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(savedHouseNumber)
+                .photoId(savedPhotoId)
                 .build())
                 .getEntityId()
                 .intValue();
@@ -500,6 +534,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.advertisementList[0].localityId", equalTo(savedLocalityId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].streetId", equalTo(savedStreetId.intValue())))
                 .andExpect(jsonPath("$.advertisementList[0].houseNumber", is(savedHouseNumber)))
+                .andExpect(jsonPath("$.advertisementList[0].photoId", equalTo(savedPhotoId.intValue())))
                 .andExpect(jsonPath("$.total", is(foundOne)));
     }
 
@@ -516,6 +551,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(randomString())
+                .photoId(savedPhotoId)
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -541,6 +577,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(randomString())
+                .photoId(savedPhotoId)
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -566,6 +603,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(randomString())
+                .photoId(savedPhotoId)
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -591,6 +629,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(currentId)
                 .streetId(savedStreetId)
                 .houseNumber(randomString())
+                .photoId(savedPhotoId)
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -616,6 +655,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(currentId)
                 .houseNumber(randomString())
+                .photoId(savedPhotoId)
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -640,6 +680,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(randomString())
+                .photoId(savedPhotoId)
                 .build())
                 .getEntityId();
 
@@ -657,6 +698,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(newHouseNumber)
+                .photoId(savedPhotoId)
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -692,6 +734,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(randomString())
+                .photoId(savedPhotoId)
                 .build();
 
         mockMvc.perform(post(ENDPOINT)
@@ -715,6 +758,7 @@ public class AdvertisementRestControllerIntegrationTest {
                 .localityId(savedLocalityId)
                 .streetId(savedStreetId)
                 .houseNumber(randomString())
+                .photoId(savedPhotoId)
                 .build())
                 .getEntityId();
 

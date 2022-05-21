@@ -111,6 +111,49 @@ public final class ApiExamples {
                 "}";
     }
 
+    public static class ApiPhoto {
+        public static final String FIND_SUCCESS = "{\n" +
+                "  \"status\": {\n" +
+                "    \"code\": \"SUCCESS\",\n" +
+                "    \"description\": null\n" +
+                "  },\n" +
+                "  \"photoList\": [\n" +
+                "    {\n" +
+                "      \"entityId\": 1,\n" +
+                "      \"urn\": \"string\"\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"total\": 1\n" +
+                "}";
+
+        public static final String FIND_INVALID_RQ = "{\n" +
+                "  \"status\": {\n" +
+                "    \"code\": \"INVALID_RQ\",\n" +
+                "    \"description\": \"string\"\n" +
+                "  },\n" +
+                "  \"photoList\": null,\n" +
+                "  \"total\": null\n" +
+                "}";
+
+        public static final String FIND_CALL_ERROR = "{\n" +
+                "  \"status\": {\n" +
+                "    \"code\": \"CALL_ERROR\",\n" +
+                "    \"description\": \"string\"\n" +
+                "  },\n" +
+                "  \"photoList\": null,\n" +
+                "  \"total\": null\n" +
+                "}";
+
+        public static final String SAVE_SUCCESS = "{\n" +
+                "  \"status\": {\n" +
+                "    \"code\": \"SUCCESS\",\n" +
+                "    \"description\": null\n" +
+                "  },\n" +
+                "  \"entityId\": 1,\n" +
+                "  \"urn\": \"string\"\n" +
+                "}";
+    }
+
     public static class ApiAdvertisement {
         public static final String FIND_SUCCESS = "{\n" +
                 "  \"status\": {\n" +
@@ -128,7 +171,8 @@ public final class ApiExamples {
                 "      \"price\": 10000,\n" +
                 "      \"localityId\": 1,\n" +
                 "      \"streetId\": 1,\n" +
-                "      \"houseNumber\": \"string\"\n" +
+                "      \"houseNumber\": \"string\",\n" +
+                "      \"photoId\": 1\n" +
                 "    }\n" +
                 "  ],\n" +
                 "  \"total\": 1\n" +

@@ -103,6 +103,7 @@ class UpdateValidation implements RequestValidation<UpdateRq> {
         errorObjectId(rq.getLocalityId(), "localityId");
         errorObjectId(rq.getStreetId(), "streetId");
         errorString(rq.getHouseNumber(), "houseNumber");
+        errorObjectId(rq.getPhotoId(), "streetId");
     }
 
     private void validateRequest(AddressUpdateRq rq) {

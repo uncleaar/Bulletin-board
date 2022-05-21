@@ -28,4 +28,6 @@ public class AdvertisementUpdateRq implements UpdateRq {
     private final Long streetId;
 
     private final String houseNumber;
+
+    private final Long photoId;
 }
