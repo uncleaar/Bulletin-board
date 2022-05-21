@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.board.core.entity.*;
 import ru.gold.ordance.board.core.service.heir.AdvertisementService;
 import ru.gold.ordance.board.core.persistence.heir.AdvertisementRepository;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.gold.ordance.board.core.utils.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
+@ActiveProfiles("test")
 public class AdvertisementServiceTest {
 
     @Autowired

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.board.core.service.heir.CategoryService;
 import ru.gold.ordance.board.core.entity.Category;
 import ru.gold.ordance.board.core.persistence.heir.CategoryRepository;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.gold.ordance.board.core.utils.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
+@ActiveProfiles("test")
 public class CategoryServiceTest {
 
     @Autowired
