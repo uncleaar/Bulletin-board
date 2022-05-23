@@ -3,8 +3,8 @@ import { useModal } from "../../hooks/useModal";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import styles from "./index.module.css";
 
-const Header = ({ open }) => {
-  // const { open } = useModal();
+const Header = () => {
+  const { open } = useModal();
 
   return (
     <header>

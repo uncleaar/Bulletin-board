@@ -2,11 +2,12 @@
   width: 400px;
   padding: 24px 16px;
   position: absolute;
-  top: 25%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10000;
   background: white;
+  border: 1px solid #000;
 }
 
 .icon {
@@ -14,4 +15,27 @@
   top: 0;
   right: 0;
   padding: 8px;
+}
+
+.form {
+}
+
+.input {
+  margin-top: 8px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.link {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: aqua;
 }

@@ -1,0 +1,8 @@
+.button {
+  margin: 0 auto;
+  margin-top: 8px;
+  display: flex;
+  padding: 8px 16px;
+  background-color: aqua;
+  cursor: pointer;
+}
