@@ -21,6 +21,7 @@ import static ru.gold.ordance.board.web.validation.Validation.validate;
 
 @RestController
 @RequestMapping(value = "/api/v1/categories/")
+@CrossOrigin(origins = "${cross-origin}")
 public class CategoryRestControllerImpl implements CategoryRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryRestControllerImpl.class);
 

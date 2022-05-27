@@ -40,3 +40,5 @@ persistence:
     url: jdbc:h2:mem:cs
     username: h2
     password:
+
+cross-origin: http://localhost:3000

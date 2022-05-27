@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.gold.ordance.board.web.rest.heir.complex.ComplexAddressRestController;
 import ru.gold.ordance.board.web.api.Status;
 import ru.gold.ordance.board.web.api.complex.ComplexAddressUpdateRq;
@@ -24,6 +21,7 @@ import static ru.gold.ordance.board.web.validation.Validation.validate;
 
 @RestController
 @RequestMapping(value = "/api/v1/complex-address/")
+@CrossOrigin(origins = "${cross-origin}")
 public class ComplexAddressRestControllerImpl implements ComplexAddressRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ComplexAddressRestControllerImpl.class);
 

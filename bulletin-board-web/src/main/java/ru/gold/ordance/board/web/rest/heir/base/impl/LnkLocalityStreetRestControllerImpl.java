@@ -20,6 +20,7 @@ import static ru.gold.ordance.board.web.validation.Validation.validate;
 
 @RestController
 @RequestMapping(value = "/api/v1/links-locality-street/")
+@CrossOrigin(origins = "${cross-origin}")
 public class LnkLocalityStreetRestControllerImpl implements LnkLocalityStreetRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LnkLocalityStreetRestControllerImpl.class);
 

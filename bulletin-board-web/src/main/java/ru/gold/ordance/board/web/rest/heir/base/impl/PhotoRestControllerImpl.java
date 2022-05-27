@@ -22,6 +22,7 @@ import static ru.gold.ordance.board.web.validation.Validation.validate;
 
 @RestController
 @RequestMapping("/api/v1/photos")
+@CrossOrigin(origins = "${cross-origin}")
 public class PhotoRestControllerImpl implements PhotoRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhotoRestControllerImpl.class);
 

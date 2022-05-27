@@ -3,11 +3,15 @@ package ru.gold.ordance.board.web.service.auth.impl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+import ru.gold.ordance.board.core.entity.Role;
 import ru.gold.ordance.board.web.api.auth.*;
 import ru.gold.ordance.board.core.entity.Client;
 import ru.gold.ordance.board.core.service.heir.ClientService;
+import ru.gold.ordance.board.web.api.client.WebClient;
 import ru.gold.ordance.board.web.service.auth.AuthWebService;
 import ru.gold.ordance.board.web.service.auth.jwt.JwtTokenProvider;
+import ru.gold.ordance.board.web.service.mapper.ClientMapper;
+import ru.gold.ordance.board.web.service.mapper.impl.ClientMapperImpl;
 
 import java.util.Optional;
 
@@ -20,7 +24,11 @@ public class AuthWebServiceImpl implements AuthWebService {
 
     private final JwtTokenProvider provider;
 
-    public AuthWebServiceImpl(ClientService service, AuthenticationManager manager, JwtTokenProvider provider) {
+    private final ClientMapper mapper = new ClientMapperImpl();
+
+    public AuthWebServiceImpl(ClientService service,
+                              AuthenticationManager manager,
+                              JwtTokenProvider provider) {
         this.service = service;
         this.manager = manager;
         this.provider = provider;
@@ -40,14 +48,19 @@ public class AuthWebServiceImpl implements AuthWebService {
 
     @Override
     public AuthRegistrationRs registration(AuthRegistrationRq rq) {
-        service.update(Client.builder()
+        Optional<Client> updatedClient = service.update(Client.builder()
                 .login(rq.getLogin())
                 .password(rq.getPassword())
                 .name(rq.getName())
                 .phoneNumber(rq.getPhoneNumber())
                 .build());
 
-        return AuthRegistrationRs.success();
+        if (updatedClient.isPresent()) {
+            String token = provider.createJwt(rq.getLogin(), Role.USER.getName());
+            return AuthRegistrationRs.success(mapper.fromEntity(updatedClient.get()), token);
+        }
+
+        return AuthRegistrationRs.success(null, null);
     }
 
     @Override

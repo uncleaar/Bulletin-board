@@ -21,6 +21,7 @@ import static ru.gold.ordance.board.web.validation.Validation.validate;
 
 @RestController
 @RequestMapping(value = "/api/v1/localities/")
+@CrossOrigin(origins = "${cross-origin}")
 public class LocalityRestControllerImpl implements LocalityRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LocalityRestControllerImpl.class);
 
