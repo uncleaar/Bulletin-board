@@ -34,6 +34,7 @@ public class ClientMapperImpl implements ClientMapper {
                 .login(entity.getLogin())
                 .name(entity.getName())
                 .phoneNumber(entity.getPhoneNumber())
+                .role(entity.getRole().getName())
                 .build();
     }
 }

@@ -43,7 +43,7 @@ public class AuthWebServiceImpl implements AuthWebService {
         Optional<Client> user = service.findByLogin(login);
         String token = provider.createJwt(login, user.get().getRole().getName());
 
-        return AuthLoginRs.success(token, user.get().getRole().getName());
+        return AuthLoginRs.success(mapper.fromEntity(user.get()), token);
     }
 
     @Override

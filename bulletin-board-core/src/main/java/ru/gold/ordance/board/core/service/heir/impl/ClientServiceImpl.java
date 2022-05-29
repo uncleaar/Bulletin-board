@@ -109,9 +109,8 @@ public class ClientServiceImpl implements ClientService {
             client.setLogin(helper.find(client.getClass(), client.getId()).get().getLogin());
         } else {
             client.setPassword(passwordEncoder.encode(client.getPassword()));
-            client.setRole(Role.USER);
         }
-
+        client.setRole(Role.USER);
         updatedClient = repository.saveAndFlush(client);
 
         if (exists) {

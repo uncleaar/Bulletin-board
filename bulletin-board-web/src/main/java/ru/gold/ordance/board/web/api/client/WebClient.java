@@ -17,5 +17,7 @@ public class WebClient {
     private final String name;
 
     private final String phoneNumber;
+
+    private final String role;
 }
 

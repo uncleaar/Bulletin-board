@@ -6,6 +6,7 @@ import lombok.ToString;
 import ru.gold.ordance.board.web.api.Rs;
 import ru.gold.ordance.board.web.api.Status;
 import ru.gold.ordance.board.web.api.StatusCode;
+import ru.gold.ordance.board.web.api.client.WebClient;
 
 @Builder
 @Getter
@@ -15,14 +16,14 @@ public class AuthLoginRs implements Rs {
 
     private final Status status;
 
-    private final String role;
+    private final WebClient webClient;
 
     private final String token;
 
-    public static AuthLoginRs success(String token, String role) {
+    public static AuthLoginRs success(WebClient webClient, String token) {
         return AuthLoginRs.builder()
                 .status(new Status().withCode(StatusCode.SUCCESS))
-                .role(role)
+                .webClient(webClient)
                 .token(token)
                 .build();
     }
