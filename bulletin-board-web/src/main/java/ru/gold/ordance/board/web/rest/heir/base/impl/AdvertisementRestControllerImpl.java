@@ -19,7 +19,7 @@ import static ru.gold.ordance.board.web.utils.RequestUtils.*;
 import static ru.gold.ordance.board.web.validation.Validation.validate;
 
 @RestController
-@RequestMapping(value = "/api/v1/advertisements/")
+@RequestMapping(value = "/api/v1/advertisements")
 @CrossOrigin(origins = "${cross-origin}")
 public class AdvertisementRestControllerImpl implements AdvertisementRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdvertisementRestControllerImpl.class);

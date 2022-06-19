@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ru.gold.ordance.board.core.config.CoreConfiguration;
 
 @Configuration
@@ -26,10 +28,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                .httpBasic().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/**")
-                .access("isAnonymous() and (hasIpAddress(\"127.1.0.1\") or hasIpAddress(\"::1\"))");
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/**")
+//                .access("isAnonymous() and (hasIpAddress(\"127.1.0.1\") or hasIpAddress(\"::1\"))");
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedMethods("*");
+            }
+        };
     }
 }

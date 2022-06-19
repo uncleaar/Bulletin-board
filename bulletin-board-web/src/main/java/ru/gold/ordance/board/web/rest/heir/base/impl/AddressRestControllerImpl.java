@@ -21,7 +21,7 @@ import static ru.gold.ordance.board.web.utils.RequestUtils.handleResponse;
 import static ru.gold.ordance.board.web.validation.Validation.validate;
 
 @RestController
-@RequestMapping(value = "/api/v1/addresses/")
+@RequestMapping(value = "/api/v1/addresses")
 @CrossOrigin(origins = "${cross-origin}")
 public class AddressRestControllerImpl implements AddressRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AddressRestControllerImpl.class);

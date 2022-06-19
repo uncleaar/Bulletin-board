@@ -27,7 +27,7 @@ public final class PhotoStorageUtils {
 
     public static String moveFile(MultipartFile file) throws IOException {
         String urn = getUrn(file);
-        Path path = Path.of(PATH + urn);
+        Path path = Path.of(urn);
 
         if (!Files.isDirectory(Path.of(PATH + LOCATION))) {
             Files.createDirectories(path);
@@ -39,7 +39,7 @@ public final class PhotoStorageUtils {
     }
 
     private static String getUrn(MultipartFile file) {
-        return LOCATION  + "/" + randomString() + getExtension(file.getOriginalFilename());
+        return PATH + LOCATION  + "\\" + randomString() + getExtension(file.getOriginalFilename());
     }
 
     public static String getExtension(String fullName) {

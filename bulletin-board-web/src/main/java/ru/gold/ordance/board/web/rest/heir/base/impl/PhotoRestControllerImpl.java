@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.gold.ordance.board.web.api.Status;
@@ -33,7 +34,6 @@ public class PhotoRestControllerImpl implements PhotoRestController {
     }
 
 
-    @Override
     @GetMapping(produces = JSON)
     @Operation(summary = "Get all photos", tags = "search")
     @ApiResponses({
@@ -64,42 +64,23 @@ public class PhotoRestControllerImpl implements PhotoRestController {
         }
     }
 
-    @Override
-    @GetMapping(value = "/{entityId}", produces = JSON)
+    @GetMapping(value = "/{entityId}", produces = MediaType.IMAGE_JPEG_VALUE)
     @Operation(summary = "Get photo by id", tags = "search")
-    @ApiResponses({
-            @ApiResponse(responseCode = "SUCCESS",
-                    description = "Success request. Size of the list is {0 or 1}.",
-                    content = @Content(mediaType = JSON,
-                            examples = @ExampleObject(FIND_SUCCESS))),
-
-            @ApiResponse(responseCode = "INVALID_RQ",
-                    description = "Invalid request.",
-                    content = @Content(mediaType = JSON,
-                            examples = @ExampleObject(FIND_INVALID_RQ))),
-
-            @ApiResponse(responseCode = "CALL_ERROR",
-                    description = "Internal Server Error.",
-                    content = @Content(mediaType = JSON,
-                            examples = @ExampleObject(FIND_CALL_ERROR)))
-    })
-    public PhotoGetRs findById(@PathVariable Long entityId) {
+    public byte[] findById(@PathVariable Long entityId) {
         PhotoGetByIdRq rq = new PhotoGetByIdRq(entityId);
 
         try {
             LOGGER.info("Get by id request received: {}", rq);
 
             validate(rq);
-            PhotoGetRs rs = service.findById(rq);
-            handleResponse(LOGGER, rs, rq, null);
 
-            return rs;
+            return service.findById(rq);
         } catch (Exception e) {
             Status status = toStatus(e);
             PhotoGetRs rs = PhotoGetRs.error(status.getCode(), status.getDescription());
             handleResponse(LOGGER, rs, rq, e);
 
-            return rs;
+            return new byte[0];
         }
     }
 

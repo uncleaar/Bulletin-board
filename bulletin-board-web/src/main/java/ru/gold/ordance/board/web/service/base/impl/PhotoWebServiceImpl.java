@@ -1,5 +1,6 @@
 package ru.gold.ordance.board.web.service.base.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.gold.ordance.board.core.entity.Photo;
 import ru.gold.ordance.board.core.service.heir.PhotoService;
@@ -7,6 +8,8 @@ import ru.gold.ordance.board.web.api.photo.*;
 import ru.gold.ordance.board.web.service.base.PhotoWebService;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +21,12 @@ import static ru.gold.ordance.board.web.utils.PhotoStorageUtils.moveFile;
 @Service
 public class PhotoWebServiceImpl implements PhotoWebService {
     private final PhotoService service;
+    private final String url;
 
-    public PhotoWebServiceImpl(PhotoService service) {
+    public PhotoWebServiceImpl(PhotoService service,
+                               @Value("${storage.url:}") String url) {
         this.service = service;
+        this.url = url;
     }
 
     @Override
@@ -31,7 +37,7 @@ public class PhotoWebServiceImpl implements PhotoWebService {
             List<WebPhoto> webPhotos = found.stream()
                     .map(p -> WebPhoto.builder()
                             .entityId(p.getId())
-                            .urn(p.getUrn())
+                            .urn(url + p.getId())
                             .build())
                     .collect(Collectors.toList());
 
@@ -42,16 +48,13 @@ public class PhotoWebServiceImpl implements PhotoWebService {
     }
 
     @Override
-    public PhotoGetRs findById(PhotoGetByIdRq rq) {
+    public byte[] findById(PhotoGetByIdRq rq) throws IOException {
         Optional<Photo> found = service.findById(rq.getEntityId());
 
         if (found.isPresent()) {
-            return PhotoGetRs.success(Collections.singletonList(WebPhoto.builder()
-                    .entityId(found.get().getId())
-                    .urn(found.get().getUrn())
-                    .build()));
+            return Files.readAllBytes(Paths.get(found.get().getUrn()));
         } else {
-            return PhotoGetRs.success(Collections.emptyList());
+            return new byte[0];
         }
     }
 

@@ -18,6 +18,7 @@ spring:
 storage:
   path: ${java.io.tmpdir}
   location: /storage
+  url: http://localhost:8090/api/v1/photos/
 
 springdoc:
   swagger-ui:

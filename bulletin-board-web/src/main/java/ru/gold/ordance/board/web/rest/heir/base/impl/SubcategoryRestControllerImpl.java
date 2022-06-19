@@ -22,7 +22,7 @@ import static ru.gold.ordance.board.web.utils.RequestUtils.*;
 import static ru.gold.ordance.board.web.validation.Validation.validate;
 
 @RestController
-@RequestMapping(value = "/api/v1/subcategories/")
+@RequestMapping(value = "/api/v1/subcategories")
 @CrossOrigin(origins = "${cross-origin}")
 public class SubcategoryRestControllerImpl implements SubcategoryRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SubcategoryRestControllerImpl.class);

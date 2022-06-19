@@ -19,7 +19,7 @@ import static ru.gold.ordance.board.web.utils.RequestUtils.*;
 import static ru.gold.ordance.board.web.validation.Validation.validate;
 
 @RestController
-@RequestMapping("/api/v1/clients/")
+@RequestMapping("/api/v1/clients")
 @CrossOrigin(origins = "${cross-origin}")
 public class ClientRestControllerImpl implements ClientRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientRestControllerImpl.class);
