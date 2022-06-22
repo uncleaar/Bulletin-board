@@ -37,6 +37,10 @@ export const validatePasswordConfirmation = (passwordConfirmation) => {
 };
 
 export const validatePhone = (phone) => {
+  if (!phone) {
+    return "Поле обязательно";
+  }
+
   if (!phone.toLowerCase().match(/^\+?[1-9][0-9]{7,14}$/)) {
     return "Некорректный ввод";
   }

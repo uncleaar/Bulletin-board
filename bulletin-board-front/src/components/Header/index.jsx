@@ -1,10 +1,18 @@
 import React from "react";
 import { useModal } from "../../hooks/useModal";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
+import { useAuth } from "../../hooks/useAuth";
 import styles from "./index.module.css";
 
 const Header = () => {
   const { open } = useModal();
+
+  const { isAuth, user } = useAuth();
+
+  const handleCreateAd = () => {
+    if (isAuth) console.log("валим ребята)");
+    else open();
+  };
 
   return (
     <header>
@@ -29,15 +37,26 @@ const Header = () => {
           </div>
           <div className={styles.header__wrap__right}>
             <div className={styles.header__wrap__right__buttons}>
+              {!isAuth ? (
+                <div
+                  className={styles.header__wrap__right__buttons__registration}
+                  onClick={() => open()}
+                >
+                  Вход и регистрация
+                </div>
+              ) : (
+                <div
+                  className={styles.header__wrap__right__buttons__registration}
+                >
+                  {user?.name}
+                </div>
+              )}
               <div
-                className={styles.header__wrap__right__buttons__registration}
-                onClick={() => open()}
+                className={styles.header__wrap__right__buttons__ad}
+                onClick={handleCreateAd}
               >
-                Вход и регистрация
-              </div>
-              <a href="" className={styles.header__wrap__right__buttons__ad}>
                 Подать объявление
-              </a>
+              </div>
             </div>
           </div>
         </div>
