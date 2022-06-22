@@ -8,3 +8,9 @@
   max-width: 1140px;
   margin: 0 auto;
 }
+
+.cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
